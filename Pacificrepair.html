@@ -1,0 +1,94 @@
+import { Card, CardContent } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Phone, Wrench, Clock, MapPin, Star } from "lucide-react";
+import { motion } from "framer-motion";
+import Image from "next/image";
+
+export default function HomePage() {
+  return (
+    <main className="p-6 space-y-10 max-w-6xl mx-auto">
+      {/* H1 заголовок с ключом */}
+      <section className="text-center space-y-4">
+        <motion.h1
+          className="text-5xl font-bold"
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+        >
+          Professional Appliance Repair in Sacramento, CA
+        </motion.h1>
+        <h2 className="text-xl text-gray-700">
+          Reliable Washer, Dryer, Refrigerator, Oven & Microwave Repairs Near You
+        </h2>
+        <Button size="lg" className="text-lg">
+          <Phone className="mr-2 w-5 h-5" /> Call Now: (916) 555-1234
+        </Button>
+      </section>
+
+      {/* Галерея бытовой техники */}
+      <section className="grid grid-cols-2 md:grid-cols-3 gap-6">
+        {[
+          { name: "Washer", image: "/washer.jpg" },
+          { name: "Dryer", image: "/dryer.jpg" },
+          { name: "Refrigerator", image: "/refrigerator.jpg" },
+          { name: "Microwave", image: "/microwave.jpg" },
+          { name: "Wall Oven", image: "/oven.jpg" }
+        ].map((item, idx) => (
+          <Card key={idx} className="rounded-xl overflow-hidden shadow-md">
+            <Image src={item.image} alt={item.name} width={400} height={300} className="w-full object-cover h-48" />
+            <CardContent className="p-4 text-center">
+              <h3 className="text-lg font-semibold">{item.name}</h3>
+            </CardContent>
+          </Card>
+        ))}
+      </section>
+
+      {/* Schedule Appointment CTA */}
+      <section className="text-center space-y-4">
+        <h2 className="text-3xl font-bold">Schedule Your Appliance Repair Appointment Today</h2>
+        <p className="text-gray-600 text-md">Quick and easy scheduling for Sacramento and nearby areas.</p>
+        <Button size="lg" className="text-lg">
+          Schedule Appointment
+        </Button>
+      </section>
+
+      {/* Почему мы — NASA-подход */}
+      <section className="bg-gray-100 p-6 rounded-2xl shadow-inner space-y-4">
+        <h3 className="text-2xl font-bold">Why Choose Us – The N.A.S.A. Promise</h3>
+        <ul className="list-disc list-inside space-y-2 text-gray-700">
+          <li><strong>N</strong> – Neat & Professional Technicians</li>
+          <li><strong>A</strong> – Accurate Diagnostics & Estimates</li>
+          <li><strong>S</strong> – Same-Day Service Available</li>
+          <li><strong>A</strong> – Affordable, Transparent Pricing</li>
+        </ul>
+      </section>
+
+      {/* Отзывы клиентов */}
+      <section className="space-y-6">
+        <h3 className="text-2xl font-bold text-center">Customer Reviews</h3>
+        <div className="space-y-4">
+          {[1, 2, 3].map((review, idx) => (
+            <Card key={idx} className="p-4 shadow-sm">
+              <div className="flex items-center space-x-3">
+                <Star className="text-yellow-500" />
+                <p className="text-gray-700 text-sm">"Great service! Fixed my washer same day. Highly recommend!" – John D.</p>
+              </div>
+            </Card>
+          ))}
+        </div>
+        <div className="text-center">
+          <Button variant="secondary">Leave a Review</Button>
+        </div>
+      </section>
+
+      {/* Фото нашей команды/работ */}
+      <section className="space-y-4">
+        <h3 className="text-2xl font-bold text-center">Our Technicians in Action</h3>
+        <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+          {["/team1.jpg", "/repair1.jpg", "/repair2.jpg"].map((src, idx) => (
+            <Image key={idx} src={src} alt="Team Photo" width={400} height={300} className="rounded-xl shadow-md object-cover h-48 w-full" />
+          ))}
+        </div>
+      </section>
+    </main>
+  );
+}
