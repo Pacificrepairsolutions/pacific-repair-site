@@ -87,7 +87,7 @@ window.SITE = {
   brandStrip: ["Sub-Zero", "Wolf", "Viking", "Thermador", "Miele", "Samsung", "LG", "Whirlpool"],
   brands: {
     luxury: ["Sub-Zero", "Wolf", "Viking", "Thermador", "Miele", "Dacor", "Monogram", "GE Profile", "JennAir", "Fisher & Paykel", "Bosch"],
-    major:  ["Samsung", "LG", "Whirlpool", "Maytag", "KitchenAid", "GE", "Frigidaire", "Electrolux"],
+    major:  ["Samsung", "LG", "Whirlpool", "Maytag", "KitchenAid", "GE", "Frigidaire", "Electrolux", "InSinkErator"],
     hvac:   ["Carrier", "Trane", "Lennox", "Rheem", "Goodman", "Daikin", "Mitsubishi Electric"]
   },
 
