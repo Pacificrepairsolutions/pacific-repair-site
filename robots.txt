@@ -1,3 +1,3 @@
 User-agent: *
 Allow: /
-Sitemap: https://heartfelt-shortbread-df3449.netlify.app/sitemap.xml
+Sitemap: https://pacificrepairsolutions.github.io/pacific-repair-site/sitemap.xml
