@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Get the Pacific Repair app</title>
+<meta name="description" content="Install the free Pacific Repair app on your phone: book repairs, save your appliances, get maintenance reminders.">
+<meta name="theme-color" content="#1E5BD8">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="icon-192.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Pacific Repair">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#F4F7FC; --card:#FFFFFF; --ink:#0B1B3A; --text:#33415C; --muted:#64708A; --line:#E1E7F1;
+  --blue:#1E5BD8; --blue-soft:#E8EFFD; --orange:#F2711C; --green:#12A06B; --green-soft:#E3F6EE; --amber-soft:#FFF4DC;
+  --font:"Figtree",system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px);
+  padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    color-scheme:dark;
+    --bg:#0A1426; --card:#111F38; --ink:#EEF3FF; --text:#C8D3EA; --muted:#93A1BE; --line:#22355A;
+    --blue:#5C8DF5; --blue-soft:#17294C; --orange:#FF8A3D; --green:#2CC48A; --green-soft:#103329; --amber-soft:#3A2F12;
+  }
+}
+:root[data-theme="dark"]{
+  color-scheme:dark;
+  --bg:#0A1426; --card:#111F38; --ink:#EEF3FF; --text:#C8D3EA; --muted:#93A1BE; --line:#22355A;
+  --blue:#5C8DF5; --blue-soft:#17294C; --orange:#FF8A3D; --green:#2CC48A; --green-soft:#103329; --amber-soft:#3A2F12;
+}
+*,*::before,*::after{box-sizing:inherit}
+body{margin:0;background:var(--bg);color:var(--text);font:400 17px/1.55 var(--font);-webkit-font-smoothing:antialiased}
+h1,h2,h3{color:var(--ink);margin:0;line-height:1.15;letter-spacing:-.02em}
+p{margin:0}
+a{color:inherit}
+:focus-visible{outline:3px solid var(--blue);outline-offset:3px;border-radius:8px}
+.wrap{max-width:560px;margin:0 auto;padding:22px 18px 40px}
+.head{display:flex;align-items:center;gap:12px}
+.head svg{width:64px;height:64px;flex:none;border-radius:16px;box-shadow:0 10px 24px -12px rgba(30,91,216,.6)}
+.head h1{font-size:26px;font-weight:800}
+.head p{color:var(--muted);font-size:15px}
+.badges{display:flex;flex-wrap:wrap;gap:8px 16px;margin-top:16px;font-size:14px;color:var(--muted)}
+.badges span::before{content:"✓ ";color:var(--green);font-weight:800}
+.card{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:20px;margin-top:20px}
+.card h2{font-size:20px}
+.btn{display:flex;align-items:center;justify-content:center;gap:10px;width:100%;min-height:56px;padding:0 20px;border-radius:14px;border:0;font:800 18px/1 var(--font);text-decoration:none;cursor:pointer}
+.btn svg{width:22px;height:22px}
+.btn-o{background:var(--orange);color:#fff}
+.btn-l{background:var(--card);color:var(--ink);box-shadow:inset 0 0 0 1.5px var(--line);font-size:16px;min-height:50px}
+.steps{list-style:none;counter-reset:s;padding:0;margin:16px 0 0;display:grid;gap:14px}
+.steps li{counter-increment:s;display:grid;grid-template-columns:36px 1fr;gap:12px;align-items:start}
+.steps li::before{content:counter(s);width:36px;height:36px;border-radius:50%;background:var(--blue);color:#fff;display:grid;place-items:center;font-weight:800}
+.steps b{color:var(--ink)}
+.key{display:inline-flex;align-items:center;gap:6px;background:var(--blue-soft);color:var(--blue);border-radius:8px;padding:2px 8px;font-weight:700;font-size:15px;white-space:nowrap;vertical-align:middle}
+.key svg{width:17px;height:17px}
+.note{background:var(--amber-soft);border-radius:14px;padding:14px;font-size:15px;margin-top:14px}
+.note b{color:var(--ink)}
+.done{background:var(--green-soft);border-radius:14px;padding:16px;margin-top:14px;display:none}
+.done.show{display:block}
+.done b{color:var(--ink)}
+.tabs{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;background:var(--bg);padding:4px;border-radius:12px;margin-top:14px}
+.tabs button{border:0;background:none;border-radius:9px;padding:10px 4px;font:700 14.5px var(--font);color:var(--muted);cursor:pointer}
+.tabs button[aria-selected="true"]{background:var(--card);color:var(--ink);box-shadow:0 1px 3px rgba(0,0,0,.12)}
+.bsel{display:grid;gap:6px;margin-top:16px;font-weight:700;font-size:14px;color:var(--ink)}
+.bsel select{font:600 16px var(--font);color:var(--text);background:var(--bg);border:1.5px solid var(--line);border-radius:12px;padding:11px 12px}
+.panel{display:none}.panel.on{display:block}
+.qr{display:flex;gap:18px;align-items:center;flex-wrap:wrap}
+.qr #qrbox{background:#fff;padding:10px;border-radius:14px;border:1px solid var(--line);width:180px;height:180px;display:grid;place-items:center}
+.qr #qrbox img,.qr #qrbox canvas{width:160px;height:160px}
+.qr p{flex:1;min-width:200px}
+.link{word-break:break-all;font-weight:700;color:var(--blue)}
+.feat{display:grid;gap:10px;margin-top:6px}
+.feat div{display:flex;gap:10px;align-items:center;font-size:15.5px}
+.feat i{width:30px;height:30px;border-radius:9px;background:var(--blue-soft);display:grid;place-items:center;font-style:normal;flex:none}
+.foot{text-align:center;color:var(--muted);font-size:14px;margin-top:22px}
+.foot a{color:var(--blue);font-weight:700;text-decoration:none}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="head">
+    <svg viewBox="0 0 42 42" aria-hidden="true"><rect width="42" height="42" rx="10" fill="#1E5BD8"/><path d="M8 27c4.5-4.5 8-4.5 12.5 0s8 4.5 12.5 0" stroke="#fff" stroke-width="3.2" fill="none" stroke-linecap="round"/><path d="M10 19.5c4-3.5 7-3.5 11 0s7 3.5 11 0" stroke="#9EC0FF" stroke-width="3.2" fill="none" stroke-linecap="round"/></svg>
+    <div><h1>Pacific Repair app</h1><p>Free · Takes 10 seconds · No app store</p></div>
+  </div>
+  <div class="badges"><span>Book repairs</span><span>Save your appliances</span><span>Maintenance reminders</span><span>Pay invoices</span></div>
+
+  <!-- in-app browser warning -->
+  <div class="card" id="inapp" hidden>
+    <h2>Open in your browser first</h2>
+    <p style="margin-top:8px">You opened this link inside another app. To install, open it in <b id="inapp-browser">Safari</b>:</p>
+    <ol class="steps">
+      <li><span>Tap the <span class="key">⋯</span> or <span class="key">Share</span> button in the corner.</span></li>
+      <li><span>Tap <b>“Open in Safari”</b> or <b>“Open in browser”</b>.</span></li>
+    </ol>
+    <button class="btn btn-l" id="copy-btn" style="margin-top:14px">Copy link</button>
+  </div>
+
+  <!-- already installed -->
+  <div class="card" id="installed" hidden>
+    <h2>You already have the app 🎉</h2>
+    <p style="margin-top:8px">Open Pacific Repair from your home screen any time.</p>
+    <a class="btn btn-o" href="app.html" style="margin-top:14px">Open the app</a>
+  </div>
+
+  <!-- main -->
+  <div class="card" id="main">
+    <h2 id="main-title">Install on your phone</h2>
+    <div class="tabs" role="tablist" aria-label="Your device">
+      <button role="tab" data-os="iphone" aria-selected="true">iPhone</button>
+      <button role="tab" data-os="android" aria-selected="false">Android</button>
+      <button role="tab" data-os="computer" aria-selected="false">Computer</button>
+    </div>
+
+    <div class="panel on" id="p-iphone">
+      <label class="bsel">Your browser
+        <select id="b-iphone"><option value="safari">Safari</option><option value="chrome">Chrome</option><option value="edge">Edge</option><option value="firefox">Firefox</option><option value="other">Other browser</option></select>
+      </label>
+      <ol class="steps" id="s-iphone"></ol>
+      <div class="note"><b>Tip:</b> if you opened the link inside Messages, WhatsApp, Instagram or Facebook, first tap the ⋯ or Share button and choose <b>Open in browser</b>.</div>
+    </div>
+
+    <div class="panel" id="p-android">
+      <a class="btn btn-o" id="apk-btn" href="#" download hidden style="margin-top:16px"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12M7 10l5 5 5-5M5 21h14"/></svg>Download for Android (.apk)</a>
+      <p class="note" id="apk-note" hidden><b>After the download:</b> tap the file, then <b>Install</b>. If your phone asks, allow installs from this browser — it’s our official app.</p>
+      <button class="btn btn-o" id="android-btn" style="margin-top:16px"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12M7 10l5 5 5-5M5 21h14"/></svg>Install the app</button>
+      <p style="margin-top:14px;color:var(--muted);font-size:15px">If no install window opens, do it from the browser menu:</p>
+      <label class="bsel">Your browser
+        <select id="b-android"><option value="chrome">Chrome</option><option value="samsung">Samsung Internet</option><option value="edge">Edge</option><option value="firefox">Firefox</option><option value="opera">Opera</option><option value="other">Other browser</option></select>
+      </label>
+      <ol class="steps" id="s-android"></ol>
+    </div>
+
+    <div class="panel" id="p-computer">
+      <div class="qr" style="margin-top:16px">
+        <div id="qrbox" aria-label="QR code to open this page on your phone"></div>
+        <p><b style="color:var(--ink)">Scan with your phone camera</b> to open this page on your phone and install the app there.<br><span class="link" id="page-link"></span></p>
+      </div>
+      <button class="btn btn-l" id="pc-btn" style="margin-top:16px">Install on this computer</button>
+    </div>
+
+    <div class="done" id="done"><b>Installed!</b> Find Pacific Repair on your home screen.</div>
+  </div>
+
+  <div class="card">
+    <h2>What you get</h2>
+    <div class="feat" style="margin-top:12px">
+      <div><i>🛠️</i>Book in-home or video visits in a few taps</div>
+      <div><i>📷</i>Save appliances with a photo of the model sticker</div>
+      <div><i>🔔</i>Reminders for AC filters, dryer vents, fridge coils</div>
+      <div><i>📋</i>Follow your request and pay your invoice</div>
+    </div>
+    <a class="btn btn-l" href="app.html" style="margin-top:16px">Try it in the browser first</a>
+  </div>
+
+  <p class="foot">Questions? Call <a id="call" href="tel:+19162350084">916-235-0084</a> · <a href="index.html">Website</a></p>
+</div>
+
+<script src="content.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcode-generator/1.4.4/qrcode.min.js"></script>
+<script>
+(function(){
+  var C=window.SITE||{};
+  if(C.phone1){var c=document.getElementById('call');c.textContent=C.phone1;c.href='tel:+1'+C.phone1.replace(/\D/g,'').slice(-10);}
+  var ua=navigator.userAgent;
+  var isIOS=/iPhone|iPad|iPod/.test(ua)||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1);
+  var isAndroid=/Android/.test(ua);
+  var inApp=/FBAN|FBAV|Instagram|Line\/|WhatsApp|Telegram|Snapchat|MicroMessenger|GSA\//.test(ua);
+  var standalone=matchMedia('(display-mode: standalone)').matches||navigator.standalone;
+  var url=location.href.split('#')[0];
+
+  function show(os){
+    document.querySelectorAll('.tabs button').forEach(function(b){b.setAttribute('aria-selected',b.dataset.os===os?'true':'false');});
+    document.querySelectorAll('.panel').forEach(function(p){p.classList.toggle('on',p.id==='p-'+os);});
+    if(os==='computer')drawQR();
+  }
+  document.querySelector('.tabs').addEventListener('click',function(e){var b=e.target.closest('button');if(b)show(b.dataset.os);});
+
+  if(standalone){document.getElementById('installed').hidden=false;document.getElementById('main').hidden=true;}
+  if(inApp&&!standalone){document.getElementById('inapp').hidden=false;document.getElementById('inapp-browser').textContent='your browser (Safari, Chrome, Samsung Internet…)';}
+
+  // browser-specific steps
+  var SH='<span class="key"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 15V3M8 7l4-4 4 4"/><path d="M5 11v9a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-9"/></svg>Share</span>';
+  var ADD='<span class="key"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><rect x="3" y="3" width="18" height="18" rx="4"/><path d="M12 8v8M8 12h8"/></svg>Add to Home Screen</span>';
+  var END='Tap <b>Add</b>. The Pacific Repair icon appears on your home screen.';
+  var STEPS={
+    iphone:{
+      safari:['Tap the '+SH+' button at the bottom of the screen.','Scroll down and tap '+ADD+'.',END],
+      chrome:['Tap the '+SH+' button in the address bar at the top.','Scroll down and tap '+ADD+'.',END],
+      edge:['Tap the <span class="key">⋯</span> menu at the bottom, then '+SH+'.','Tap '+ADD+'.',END],
+      firefox:['Tap the <span class="key">☰</span> menu at the bottom, then '+SH+'.','Tap '+ADD+'.',END],
+      other:['Find the '+SH+' button or the browser menu.','Tap '+ADD+'. If you can’t find it, open this page in Safari.',END]
+    },
+    android:{
+      chrome:['Tap the <span class="key">⋮</span> menu at the top right.','Tap <span class="key">Install app</span> or <span class="key">Add to Home screen</span>.','Tap <b>Install</b>. The icon appears on your home screen.'],
+      samsung:['Tap the <span class="key">≡</span> menu at the bottom right.','Tap <span class="key">Add page to</span>, then <span class="key">Home screen</span>.','Tap <b>Add</b>. The icon appears on your home screen.'],
+      edge:['Tap the <span class="key">⋯</span> menu at the bottom.','Tap <span class="key">Add to phone</span> or <span class="key">Install app</span>.','Tap <b>Install</b>. The icon appears on your home screen.'],
+      firefox:['Tap the <span class="key">⋮</span> menu.','Tap <span class="key">Install</span> or <span class="key">Add to Home screen</span>.','Tap <b>Add</b>. The icon appears on your home screen.'],
+      opera:['Tap the <span class="key">⋮</span> menu.','Tap <span class="key">Add to</span>, then <span class="key">Home screen</span>.','Tap <b>Add</b>. The icon appears on your home screen.'],
+      other:['Open the browser menu (⋮, ≡ or ⋯).','Look for <span class="key">Install app</span>, <span class="key">Add to Home screen</span> or <span class="key">Add page to</span>.','Confirm. If you can’t find it, open this page in Chrome.']
+    }
+  };
+  function renderSteps(os){var v=document.getElementById('b-'+os).value;document.getElementById('s-'+os).innerHTML=STEPS[os][v].map(function(t){return '<li><span>'+t+'</span></li>';}).join('');}
+  var ib=/CriOS/.test(ua)?'chrome':/EdgiOS/.test(ua)?'edge':/FxiOS/.test(ua)?'firefox':(/Safari/.test(ua)&&!/OPiOS|GSA|DuckDuckGo/.test(ua))?'safari':'other';
+  var ab=/SamsungBrowser/.test(ua)?'samsung':/EdgA/.test(ua)?'edge':/Firefox/.test(ua)?'firefox':/OPR|Opera/.test(ua)?'opera':/Chrome/.test(ua)?'chrome':'other';
+  document.getElementById('b-iphone').value=isIOS?ib:'safari';
+  document.getElementById('b-android').value=isAndroid?ab:'chrome';
+  ['iphone','android'].forEach(function(os){document.getElementById('b-'+os).addEventListener('change',function(){renderSteps(os);});renderSteps(os);});
+  show(isIOS?'iphone':isAndroid?'android':'computer');
+
+  // Android installer file (.apk) on our own site
+  if(C.androidApk){var ab2=document.getElementById('apk-btn');ab2.href=C.androidApk;ab2.hidden=false;document.getElementById('apk-note').hidden=false;var ib2=document.getElementById('android-btn');ib2.className='btn btn-l';ib2.textContent='Or install without downloading';}
+  // store links if the app is published
+  if(isIOS&&C.appStoreLink)addStore(C.appStoreLink,'Download on the App Store');
+  if(isAndroid&&C.googlePlayLink)addStore(C.googlePlayLink,'Get it on Google Play');
+  function addStore(href,label){var a=document.createElement('a');a.className='btn btn-l';a.href=href;a.textContent=label;a.style.marginTop='12px';document.getElementById('main').appendChild(a);}
+
+  // native install (Android Chrome, Samsung Internet, desktop Chrome/Edge)
+  var deferred=null;
+  window.addEventListener('beforeinstallprompt',function(e){e.preventDefault();deferred=e;});
+  window.addEventListener('appinstalled',function(){document.getElementById('done').classList.add('show');});
+  function tryInstall(){
+    if(!deferred){var st=document.getElementById(isAndroid?'s-android':'s-iphone');if(st)st.scrollIntoView({behavior:'smooth',block:'center'});return;}
+    deferred.prompt();
+    deferred.userChoice.then(function(r){if(r.outcome==='accepted')document.getElementById('done').classList.add('show');deferred=null;});
+  }
+  document.getElementById('android-btn').addEventListener('click',tryInstall);
+  document.getElementById('pc-btn').addEventListener('click',tryInstall);
+
+  document.getElementById('copy-btn').addEventListener('click',function(){
+    var b=this;
+    try{navigator.clipboard.writeText(url).then(function(){b.textContent='Link copied';},function(){prompt('Copy this link:',url);});}catch(_){prompt('Copy this link:',url);}
+  });
+
+  var drawn=false;
+  function drawQR(){
+    if(drawn)return;drawn=true;
+    document.getElementById('page-link').textContent=url;
+    try{var q=qrcode(0,'M');q.addData(url);q.make();document.getElementById('qrbox').innerHTML=q.createImgTag(5,0);}
+    catch(_){document.getElementById('qrbox').textContent='Open this link on your phone';}
+  }
+
+  if('serviceWorker' in navigator&&location.protocol==='https:'){try{navigator.serviceWorker.register('sw.js').catch(function(){});}catch(_){}}
+})();
+</script>
+</body>
+</html>

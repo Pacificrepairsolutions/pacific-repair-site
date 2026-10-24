@@ -1,0 +1,788 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Pacific Repair App</title>
+<meta name="theme-color" content="#1E5BD8">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Pacific Repair">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="icon-192.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#F4F7FC; --card:#FFFFFF; --ink:#0B1B3A; --text:#33415C; --muted:#64708A; --line:#E1E7F1;
+  --blue:#1E5BD8; --blue-soft:#E8EFFD; --orange:#F2711C; --green:#12A06B; --green-soft:#E3F6EE; --red:#D64545; --red-soft:#FDEBEB; --amber:#B7791F; --amber-soft:#FFF4DC;
+  --font:"Figtree",system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px);
+  padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    color-scheme:dark;
+    --bg:#0A1426; --card:#111F38; --ink:#EEF3FF; --text:#C8D3EA; --muted:#93A1BE; --line:#22355A;
+    --blue:#5C8DF5; --blue-soft:#17294C; --orange:#FF8A3D; --green:#2CC48A; --green-soft:#103329; --red:#FF7A7A; --red-soft:#3A1A1F; --amber:#F2C14E; --amber-soft:#3A2F12;
+  }
+}
+:root[data-theme="dark"]{
+  color-scheme:dark;
+  --bg:#0A1426; --card:#111F38; --ink:#EEF3FF; --text:#C8D3EA; --muted:#93A1BE; --line:#22355A;
+  --blue:#5C8DF5; --blue-soft:#17294C; --orange:#FF8A3D; --green:#2CC48A; --green-soft:#103329; --red:#FF7A7A; --red-soft:#3A1A1F; --amber:#F2C14E; --amber-soft:#3A2F12;
+}
+*,*::before,*::after{box-sizing:inherit}
+html,body{height:100%}
+body{margin:0;background:var(--bg);color:var(--text);font:400 16px/1.5 var(--font);-webkit-font-smoothing:antialiased;-webkit-tap-highlight-color:transparent}
+h1,h2,h3{color:var(--ink);margin:0;line-height:1.15;letter-spacing:-.02em}
+p{margin:0}
+button{font-family:inherit}
+:focus-visible{outline:3px solid var(--blue);outline-offset:2px;border-radius:8px}
+svg{display:block}
+
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--card)}
+.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:9;background:var(--card);border-bottom:1px solid var(--line)}
+.top-in{max-width:640px;margin:0 auto;display:flex;align-items:center;gap:10px;padding:12px 16px}
+.top-in svg.logo{width:34px;height:34px;flex:none}
+.top-in b{font-size:17px;color:var(--ink);font-weight:800}
+.top-in small{display:block;font-size:12px;color:var(--muted);font-weight:600;line-height:1.1}
+.top-in .site{margin-left:auto;font-size:14px;font-weight:700;color:var(--blue);text-decoration:none}
+main{max-width:640px;margin:0 auto;padding:18px 16px 110px}
+.view{display:none}
+.view.on{display:block}
+.h{display:flex;align-items:end;justify-content:space-between;gap:10px;margin:6px 0 14px}
+.h h1{font-size:26px;font-weight:800}
+.h p{color:var(--muted);font-size:14.5px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:16px}
+.stack{display:grid;gap:12px}
+.sec{margin-top:22px}
+.sec>h2{font-size:17px;margin-bottom:10px}
+
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:48px;padding:0 18px;border-radius:12px;border:0;font:700 15.5px/1 var(--font);text-decoration:none;cursor:pointer;white-space:nowrap}
+.btn svg{width:18px;height:18px;flex:none}
+.btn-o{background:var(--orange);color:#fff}
+.btn-b{background:var(--blue);color:#fff}
+.btn-l{background:var(--card);color:var(--ink);box-shadow:inset 0 0 0 1.5px var(--line)}
+.btn-s{min-height:38px;padding:0 13px;font-size:14px;border-radius:10px}
+.btn-block{width:100%}
+
+/* home */
+.hello{background:var(--blue);color:#DCE6FF;border-radius:20px;padding:20px;position:relative;overflow:hidden}
+.hello h1{color:#fff;font-size:24px}
+.hello p{margin-top:6px;font-size:15px}
+.hello .row{display:flex;gap:8px;margin-top:16px;flex-wrap:wrap}
+.hello .btn-l{background:rgba(255,255,255,.14);color:#fff;box-shadow:inset 0 0 0 1.5px rgba(255,255,255,.35)}
+.tiles{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.tile{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:14px 10px;display:flex;flex-direction:column;align-items:center;gap:8px;text-align:center;font-weight:700;font-size:14px;color:var(--ink);cursor:pointer}
+.tile .ic{width:44px;height:44px;border-radius:13px;display:grid;place-items:center}
+.tile .ic svg{width:23px;height:23px}
+.next{display:flex;gap:12px;align-items:center}
+.next .ic{width:44px;height:44px;border-radius:13px;display:grid;place-items:center;flex:none}
+.next .ic svg{width:22px;height:22px}
+.next b{color:var(--ink);display:block}
+.next span{font-size:14px;color:var(--muted)}
+.next .btn{margin-left:auto}
+
+/* lists */
+.item{display:flex;gap:12px;align-items:center}
+.thumb{width:56px;height:56px;border-radius:12px;background:var(--blue-soft);display:grid;place-items:center;flex:none;overflow:hidden}
+.thumb img{width:100%;height:100%;object-fit:cover}
+.thumb svg{width:26px;height:26px;color:var(--blue)}
+.item .meta{flex:1;min-width:0}
+.item .meta b{display:block;color:var(--ink);font-size:16px}
+.item .meta span{display:block;font-size:13.5px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.pill{display:inline-flex;align-items:center;gap:6px;font-size:12.5px;font-weight:700;padding:4px 9px;border-radius:999px}
+.pill.ok{background:var(--green-soft);color:var(--green)}
+.pill.soon{background:var(--amber-soft);color:var(--amber)}
+.pill.due{background:var(--red-soft);color:var(--red)}
+.pill.info{background:var(--blue-soft);color:var(--blue)}
+.empty{text-align:center;padding:28px 18px}
+.empty .ic{width:56px;height:56px;border-radius:16px;background:var(--blue-soft);display:grid;place-items:center;margin:0 auto 12px}
+.empty .ic svg{width:28px;height:28px;color:var(--blue)}
+.empty p{color:var(--muted);margin:6px 0 16px}
+.task{display:grid;gap:10px}
+.task-top{display:flex;justify-content:space-between;gap:10px;align-items:start}
+.task-top b{color:var(--ink);display:block}
+.task-top span{font-size:13.5px;color:var(--muted)}
+.task .row{display:flex;gap:8px;flex-wrap:wrap}
+.status-line{display:flex;gap:8px;align-items:center;margin-top:10px;font-size:14px;color:var(--muted)}
+.steps-mini{display:flex;gap:6px;margin-top:10px}
+.steps-mini i{flex:1;height:5px;border-radius:3px;background:var(--line)}
+.steps-mini i.on{background:var(--blue)}
+
+/* tabbar */
+.tabbar{position:fixed;left:0;right:0;bottom:0;z-index:20;background:var(--card);border-top:1px solid var(--line);padding-bottom:env(safe-area-inset-bottom,0px)}
+.tabbar-in{max-width:640px;margin:0 auto;display:grid;grid-template-columns:repeat(5,1fr)}
+.tabbar button{border:0;background:none;padding:9px 2px 10px;display:flex;flex-direction:column;align-items:center;gap:3px;font:700 11.5px/1.1 var(--font);color:var(--muted);cursor:pointer}
+.tabbar button svg{width:23px;height:23px}
+.tabbar button[aria-current="page"]{color:var(--blue)}
+
+/* sheet */
+.sheet-bg{position:fixed;inset:0;background:rgba(5,12,26,.55);z-index:40;display:none;align-items:flex-end;justify-content:center}
+.sheet-bg.show{display:flex}
+.sheet{background:var(--card);width:min(640px,100%);max-height:92%;overflow:auto;border-radius:22px 22px 0 0;padding:20px 18px calc(22px + env(safe-area-inset-bottom,0px))}
+@media (min-width:700px){.sheet-bg{align-items:center}.sheet{border-radius:22px}}
+.sheet-h{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
+.sheet-h h2{font-size:21px}
+.x{border:0;background:var(--bg);width:36px;height:36px;border-radius:50%;cursor:pointer;color:var(--ink);font-size:20px;line-height:1}
+.form{display:grid;gap:13px}
+.f{display:grid;gap:5px}
+.f2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+label{font-weight:700;font-size:13.5px;color:var(--ink)}
+input,select,textarea{font:400 16px/1.4 var(--font);color:var(--text);background:var(--bg);border:1.5px solid var(--line);border-radius:12px;padding:12px;width:100%}
+textarea{min-height:84px;resize:vertical}
+input:focus,select:focus,textarea:focus{outline:none;border-color:var(--blue)}
+.seg{display:grid;grid-template-columns:1fr 1fr;gap:6px;background:var(--bg);padding:4px;border-radius:12px}
+.seg button{border:0;background:none;border-radius:9px;padding:10px 6px;font:700 14px var(--font);color:var(--muted);cursor:pointer}
+.seg button[aria-pressed="true"]{background:var(--card);color:var(--ink);box-shadow:0 1px 3px rgba(0,0,0,.12)}
+.hint{font-size:13px;color:var(--muted)}
+.err{color:var(--red);font-size:13px;font-weight:600}
+.photo-pick{display:flex;gap:12px;align-items:center}
+.photo-pick .thumb{width:72px;height:72px}
+.tip{background:var(--blue-soft);border-radius:12px;padding:12px;font-size:14px;color:var(--text)}
+.tip b{color:var(--ink)}
+/* trades + wizard */
+.trades{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:16px}
+.trades button{border:0;border-radius:14px;padding:12px 6px;background:rgba(255,255,255,.14);color:#fff;font:700 13.5px/1.2 var(--font);cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:4px;box-shadow:inset 0 0 0 1px rgba(255,255,255,.25)}
+.trades button i{font-style:normal;font-size:24px}
+.wz-steps{display:grid;grid-template-columns:repeat(4,1fr);gap:5px;margin-bottom:14px}
+.wz-steps i{height:5px;border-radius:3px;background:var(--line)}
+.wz-steps i.on{background:var(--blue)}
+.wz{display:none}.wz.on{display:grid;gap:13px}
+.ctabs{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}
+.ctabs button{border:1.5px solid var(--line);background:var(--card);border-radius:12px;padding:10px 4px;font:700 13.5px var(--font);color:var(--text);cursor:pointer}
+.ctabs button[aria-pressed="true"]{border-color:var(--blue);background:var(--blue-soft);color:var(--blue)}
+.ogrid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.ogrid button{display:flex;align-items:center;gap:8px;border:1.5px solid var(--line);background:var(--card);border-radius:12px;padding:12px 10px;font:700 14.5px var(--font);color:var(--ink);cursor:pointer;text-align:left}
+.ogrid button i{font-style:normal;font-size:20px}
+.chips2{display:flex;flex-wrap:wrap;gap:7px}
+.chips2 button{border:1.5px solid var(--line);background:var(--card);border-radius:999px;padding:8px 12px;font:700 13.5px var(--font);color:var(--text);cursor:pointer}
+.chips2 button[aria-pressed="true"]{border-color:var(--blue);background:var(--blue-soft);color:var(--blue)}
+.days2{display:flex;gap:6px;overflow-x:auto;padding-bottom:2px}
+.days2 button{flex:none;width:64px;border:1.5px solid var(--line);background:var(--card);border-radius:12px;padding:8px 2px;text-align:center;font-family:var(--font);color:var(--text);cursor:pointer}
+.days2 button b{display:block;font-size:18px;color:var(--ink)}
+.days2 button small{display:block;font-size:11px;font-weight:700}
+.days2 button[aria-pressed="true"]{border-color:var(--blue);background:var(--blue-soft)}
+.wn{display:flex;gap:8px}.wn .btn-o,.wn .btn-b{flex:1}
+.lbl{font-weight:800;color:var(--ink);font-size:14px}
+.lbl span{font-weight:600;color:var(--muted);font-size:12.5px}
+.okmsg{color:var(--green);font-weight:700;font-size:14px}
+.alert2{background:var(--red-soft);color:var(--red);border-radius:12px;padding:12px;font-size:14px}
+.sum2{background:var(--bg);border-radius:12px;padding:12px;font-size:14px;display:grid;gap:4px}
+.sum2 div{display:flex;justify-content:space-between;gap:10px}.sum2 span{color:var(--muted)}.sum2 b{color:var(--ink);text-align:right}
+.toast{position:fixed;left:50%;bottom:calc(84px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:11px 16px;border-radius:12px;font-weight:600;font-size:14.5px;z-index:50;opacity:0;pointer-events:none;transition:opacity .2s}
+.toast.show{opacity:1}
+.install{display:none}
+.install.show{display:flex}
+</style>
+</head>
+<body>
+
+<div class="top">
+  <div class="top-in">
+    <svg class="logo" viewBox="0 0 42 42" aria-hidden="true"><rect width="42" height="42" rx="11" fill="#1E5BD8"/><path d="M8 27c4.5-4.5 8-4.5 12.5 0s8 4.5 12.5 0" stroke="#fff" stroke-width="3.2" fill="none" stroke-linecap="round"/><path d="M10 19.5c4-3.5 7-3.5 11 0s7 3.5 11 0" stroke="#9EC0FF" stroke-width="3.2" fill="none" stroke-linecap="round"/></svg>
+    <div><b>Pacific Repair</b><small>Appliance · HVAC · Electrical</small></div>
+    <a class="site" href="index.html">Website</a>
+  </div>
+</div>
+
+<main>
+
+<!-- HOME -->
+<section class="view on" id="v-home" aria-label="Home">
+  <div class="hello">
+    <h1 id="hello-name">Hi there 👋</h1>
+    <p>Appliances, heating &amp; AC, electrical — what needs fixing?</p>
+    <div class="trades">
+      <button data-open="book" data-cat="Appliances"><i>🧊</i>Appliances</button>
+      <button data-open="book" data-cat="Heating &amp; AC"><i>❄️</i>Heating &amp; AC</button>
+      <button data-open="book" data-cat="Electrical"><i>⚡</i>Electrical</button>
+    </div>
+    <div class="row">
+      <button class="btn btn-o" data-open="book">Book a repair</button>
+      <a class="btn btn-l" data-tel="1" href="tel:+19162350084">Call us</a>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="tiles">
+      <button class="tile" data-open="book" data-kind="virtual"><span class="ic" style="background:var(--green-soft);color:var(--green)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="6" width="14" height="12" rx="2"/><path d="M16 10l6-3v10l-6-3"/></svg></span>Virtual visit</button>
+      <button class="tile" data-go="appliances" data-then="add"><span class="ic" style="background:var(--blue-soft);color:var(--blue)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="2.5" width="12" height="19" rx="2"/><path d="M6 9.5h12M9 5.5v2M9 12.5v3"/></svg></span>Add to my home</button>
+      <button class="tile" data-open="pay"><span class="ic" style="background:var(--amber-soft);color:var(--amber)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20M6 15h4"/></svg></span>Pay invoice</button>
+      <button class="tile" data-go="requests"><span class="ic" style="background:var(--blue-soft);color:var(--blue)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3 8-8"/><path d="M20 12v7a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h9"/></svg></span>Job status</button>
+      <button class="tile" data-go="care"><span class="ic" style="background:var(--green-soft);color:var(--green)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 12V7l-8-4-8 4v5c0 5 3.5 8 8 9 4.5-1 8-4 8-9z"/><path d="M9 12l2 2 4-4"/></svg></span>Maintenance</button>
+      <button class="tile" data-open="model"><span class="ic" style="background:var(--amber-soft);color:var(--amber)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg></span>Find model #</button>
+    </div>
+  </div>
+
+  <div class="sec" id="home-next"></div>
+
+  <div class="sec card install" id="install-card">
+    <div class="next" style="width:100%">
+      <span class="ic" style="background:var(--blue-soft);color:var(--blue)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12M7 10l5 5 5-5M5 21h14"/></svg></span>
+      <div><b>Add to your home screen</b><span>Open the app with one tap</span></div>
+      <a class="btn btn-b btn-s" id="install-btn" href="install.html">Install</a>
+    </div>
+  </div>
+</section>
+
+<!-- APPLIANCES -->
+<section class="view" id="v-appliances" aria-label="My home">
+  <div class="h"><div><h1>My home</h1><p>Appliances, AC, furnace, panel — model numbers and photos in one place.</p></div><button class="btn btn-b btn-s" data-open="appliance">Add</button></div>
+  <div class="stack" id="appl-list"></div>
+</section>
+
+<!-- CARE -->
+<section class="view" id="v-care" aria-label="Maintenance">
+  <div class="h"><div><h1>Maintenance</h1><p>Simple care that prevents most breakdowns.</p></div></div>
+  <div class="stack" id="care-list"></div>
+  <div class="sec card">
+    <div class="next">
+      <span class="ic" style="background:var(--green-soft);color:var(--green)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a4 4 0 0 0 5 5L21 13l-8 8-3.5-3.5 8-8-1.3-1.3a4 4 0 0 0-1.5-1.9z"/><path d="M3 21l6-6"/></svg></span>
+      <div><b>Want us to do it?</b><span>Book a tune-up for your AC, furnace or appliances.</span></div>
+      <button class="btn btn-o btn-s" data-open="book" data-svc="Tune-up">Book</button>
+    </div>
+  </div>
+</section>
+
+<!-- REQUESTS -->
+<section class="view" id="v-requests" aria-label="My requests">
+  <div class="h"><div><h1>My requests</h1><p>Your repair requests and their status.</p></div><button class="btn btn-o btn-s" data-open="book">New</button></div>
+  <div class="stack" id="req-list"></div>
+</section>
+
+<!-- ACCOUNT -->
+<section class="view" id="v-account" aria-label="My info">
+  <div class="h"><div><h1>My info</h1><p>Saved only on this phone. Used to fill in your requests.</p></div></div>
+  <form class="card form" id="profile-form" novalidate>
+    <div class="f"><label for="p-name">Name</label><input id="p-name" autocomplete="name"></div>
+    <div class="f"><label for="p-phone">Phone</label><input id="p-phone" type="tel" autocomplete="tel" inputmode="tel"></div>
+    <div class="f"><label for="p-addr">Service address</label><input id="p-addr" autocomplete="street-address"></div>
+    <div class="f2">
+      <div class="f"><label for="p-city">City</label><input id="p-city" autocomplete="address-level2"></div>
+      <div class="f"><label for="p-zip">ZIP</label><input id="p-zip" inputmode="numeric" maxlength="5" autocomplete="postal-code"></div>
+    </div>
+    <button class="btn btn-b" type="submit">Save my info</button>
+  </form>
+  <div class="sec card stack">
+    <h2 style="font-size:17px">Contact Pacific Repair</h2>
+    <a class="btn btn-l btn-block" data-tel="1" href="tel:+19162350084">Call <span data-txt="phone1">916-235-0084</span></a>
+    <a class="btn btn-l btn-block" data-sms="1" href="sms:+19162350084">Text us</a>
+    <a class="btn btn-l btn-block" data-mail="1" href="mailto:pacificrepairsolutions@gmail.com">Email us</a>
+    <p class="hint" id="hours-line">Open 7 days · 8 AM – 7 PM</p>
+  </div>
+  <div class="sec card stack">
+    <h2 style="font-size:17px">Your data</h2>
+    <p class="hint">Appliances, photos and requests are stored on this device only.</p>
+    <button class="btn btn-l" id="reset-btn">Delete everything from this phone</button>
+  </div>
+</section>
+
+</main>
+
+<nav class="tabbar" aria-label="App sections">
+  <div class="tabbar-in">
+    <button data-go="home" aria-current="page"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11l9-7 9 7v9a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"/></svg>Home</button>
+    <button data-go="appliances"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="2.5" width="12" height="19" rx="2"/><path d="M6 9.5h12M9 5.5v2M9 12.5v3"/></svg>My home</button>
+    <button data-go="care"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 12V7l-8-4-8 4v5c0 5 3.5 8 8 9 4.5-1 8-4 8-9z"/></svg>Care</button>
+    <button data-go="requests"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3 8-8"/><path d="M20 12v7a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h9"/></svg>Requests</button>
+    <button data-go="account"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21c1-4 4-6 8-6s7 2 8 6"/></svg>My info</button>
+  </div>
+</nav>
+
+<!-- SHEETS -->
+<div class="sheet-bg" id="sh-book" role="dialog" aria-modal="true" aria-labelledby="t-book">
+  <div class="sheet">
+    <div class="sheet-h"><h2 id="t-book">Book a repair</h2><button class="x" data-close aria-label="Close">×</button></div>
+    <div class="wz-steps" aria-hidden="true"><i class="on"></i><i></i><i></i><i></i></div>
+
+    <div class="wz on" data-z="1">
+      <p class="lbl">What needs fixing?</p>
+      <div class="ctabs" id="z-cats"><button type="button" data-c="Appliances" aria-pressed="true">🧊 Appliances</button><button type="button" data-c="Heating &amp; AC" aria-pressed="false">❄️ Heating &amp; AC</button><button type="button" data-c="Electrical" aria-pressed="false">⚡ Electrical</button></div>
+      <div id="z-mine"></div>
+      <div class="ogrid" id="z-svcs"></div>
+    </div>
+
+    <div class="wz" data-z="2">
+      <p class="lbl" id="z2-title">Details</p>
+      <div id="z-brandbox"><p class="lbl">Brand</p><div class="chips2" id="z-brands"></div><input id="z-brand-other" list="brands" placeholder="Other brand" style="margin-top:8px"><p class="okmsg" id="z-brandok" hidden></p></div>
+      <p class="lbl">What’s happening? <span>pick all that apply</span></p>
+      <div class="chips2" id="z-sym"></div>
+      <div class="alert2" id="z-safety" hidden></div>
+      <div class="f"><label for="z-desc">Describe the problem</label><textarea id="z-desc" placeholder="e.g. AC blows warm air since this morning, outdoor unit is humming."></textarea><span class="err" id="ze-desc"></span></div>
+      <div class="f2" id="z-ids"><div class="f"><label for="z-model">Model #</label><input id="z-model" autocapitalize="characters" placeholder="optional"></div><div class="f"><label for="z-serial">Serial #</label><input id="z-serial" autocapitalize="characters" placeholder="optional"></div></div>
+      <div class="wn"><button type="button" class="btn btn-l" data-zb>Back</button><button type="button" class="btn btn-o" data-zn="3">Continue</button></div>
+    </div>
+
+    <div class="wz" data-z="3">
+      <p class="lbl">Visit type</p>
+      <div class="seg" id="kind-seg"><button type="button" data-kind="home" aria-pressed="true">Technician at home</button><button type="button" data-kind="virtual" aria-pressed="false">Virtual video call</button></div>
+      <p class="hint" id="kind-hint"></p>
+      <label style="display:flex;gap:10px;align-items:center;border:1.5px dashed var(--orange);border-radius:12px;padding:10px 12px;font-weight:600"><input type="checkbox" id="z-asap" style="width:20px;height:20px"> As soon as possible</label>
+      <p class="lbl">Day</p><div class="days2" id="z-days"></div>
+      <p class="lbl">Arrival window</p>
+      <div class="chips2" id="z-win"><button type="button" data-v="Morning (8–12)">🌅 Morning 8–12</button><button type="button" data-v="Afternoon (12–4)">☀️ Afternoon 12–4</button><button type="button" data-v="Evening (4–7)">🌇 Evening 4–7</button><button type="button" data-v="Any time">🕒 Any time</button></div>
+      <span class="err" id="ze-when"></span>
+      <div class="wn"><button type="button" class="btn btn-l" data-zb>Back</button><button type="button" class="btn btn-o" data-zn="4">Continue</button></div>
+    </div>
+
+    <form class="wz" data-z="4" id="book-form" novalidate>
+      <div class="f2"><div class="f"><label for="b-name">Name</label><input id="b-name" autocomplete="name"><span class="err" id="e-bname"></span></div><div class="f"><label for="b-phone">Mobile phone</label><input id="b-phone" type="tel" inputmode="tel" autocomplete="tel"><span class="err" id="e-bphone"></span></div></div>
+      <div class="f"><label for="b-email">Email <span class="hint">optional</span></label><input id="b-email" type="email" autocomplete="email"></div>
+      <p class="lbl">I am the</p>
+      <div class="chips2" id="z-role"><button type="button" data-v="Homeowner" aria-pressed="true">Homeowner</button><button type="button" data-v="Tenant / renter" aria-pressed="false">Tenant / renter</button><button type="button" data-v="Property manager / landlord" aria-pressed="false">Property manager / landlord</button></div>
+      <div class="f2" id="z-ownerbox" hidden><div class="f"><label for="z-owner" id="z-owner-l">Owner / landlord name</label><input id="z-owner"></div><div class="f"><label for="z-owner-ph">Their phone</label><input id="z-owner-ph" type="tel" inputmode="tel"></div></div>
+      <p class="lbl">Property</p>
+      <div class="chips2" id="z-prop"><button type="button" data-v="House" aria-pressed="true">House</button><button type="button" data-v="Apartment" aria-pressed="false">Apartment</button><button type="button" data-v="Condo / townhouse" aria-pressed="false">Condo / townhouse</button><button type="button" data-v="Business" aria-pressed="false">Business</button></div>
+      <div class="f"><label for="b-addr">Street address</label><input id="b-addr" autocomplete="address-line1" placeholder="1234 Oak Ave"><span class="err" id="e-baddr"></span></div>
+      <div class="f2"><div class="f"><label for="b-unit">Apt / unit</label><input id="b-unit" autocomplete="address-line2" placeholder="optional"></div><div class="f"><label for="b-zip">ZIP</label><input id="b-zip" inputmode="numeric" maxlength="5" autocomplete="postal-code"><span class="err" id="e-bzip"></span></div></div>
+      <div class="f2"><div class="f"><label for="b-city">City</label><input id="b-city" autocomplete="address-level2"></div><div class="f"><label for="b-gate">Gate code</label><input id="b-gate" placeholder="optional"></div></div>
+      <div class="f"><label for="b-access">Access notes</label><input id="b-access" placeholder="Parking, pets, call on arrival… (optional)"></div>
+      <div class="sum2" id="z-sum"></div>
+      <div class="wn"><button type="button" class="btn btn-l" data-zb>Back</button><button class="btn btn-o" type="submit">Confirm booking</button></div>
+      <p class="hint">No payment now. Free diagnostic with repair · 30-day warranty.</p>
+    </form>
+  </div>
+</div>
+
+<div class="sheet-bg" id="sh-appliance" role="dialog" aria-modal="true" aria-labelledby="t-appl">
+  <div class="sheet">
+    <div class="sheet-h"><h2 id="t-appl">Add equipment</h2><button class="x" data-close aria-label="Close">×</button></div>
+    <form class="form" id="appl-form" novalidate>
+      <input type="hidden" id="a-id">
+      <div class="f"><label for="a-type">Type</label><select id="a-type"></select></div>
+      <div class="f2">
+        <div class="f"><label for="a-brand">Brand</label><input id="a-brand" placeholder="Samsung" list="brands"></div>
+        <div class="f"><label for="a-year">Year bought</label><input id="a-year" inputmode="numeric" maxlength="4" placeholder="2021"></div>
+      </div>
+      <datalist id="brands"><option>Sub-Zero</option><option>Wolf</option><option>Viking</option><option>Thermador</option><option>Miele</option><option>Dacor</option><option>Monogram</option><option>GE Profile</option><option>Café</option><option>JennAir</option><option>Fisher &amp; Paykel</option><option>Bertazzoni</option><option>Samsung</option><option>LG</option><option>Whirlpool</option><option>GE</option><option>Bosch</option><option>KitchenAid</option><option>Maytag</option><option>Frigidaire</option><option>Electrolux</option><option>Kenmore</option><option>Sub-Zero</option><option>Carrier</option><option>Trane</option><option>Lennox</option><option>Goodman</option><option>Rheem</option></datalist>
+      <div class="f"><label for="a-model">Model number</label><input id="a-model" autocapitalize="characters"><button type="button" class="hint" data-open="model" style="border:0;background:none;padding:0;text-align:left;color:var(--blue);font-weight:700;cursor:pointer">Where do I find it?</button></div>
+      <div class="f"><label for="a-serial">Serial number</label><input id="a-serial" autocapitalize="characters"></div>
+      <div class="f"><label>Photo of the model sticker</label>
+        <div class="photo-pick"><span class="thumb" id="a-thumb"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h3l2-3h6l2 3h3a1 1 0 0 1 1 1v11a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V8a1 1 0 0 1 1-1z"/><circle cx="12" cy="13" r="4"/></svg></span>
+          <div><label class="btn btn-l btn-s" for="a-photo" style="cursor:pointer">Take or choose photo</label><input id="a-photo" type="file" accept="image/*" capture="environment" hidden><p class="hint" style="margin-top:6px">Our technician can bring the right parts.</p></div>
+        </div>
+      </div>
+      <div class="f"><label for="a-notes">Notes</label><textarea id="a-notes" placeholder="Kitchen, ice maker leaks sometimes…"></textarea></div>
+      <button class="btn btn-b" type="submit">Save appliance</button>
+      <button class="btn btn-l" type="button" id="a-delete" hidden>Delete appliance</button>
+    </form>
+  </div>
+</div>
+
+<div class="sheet-bg" id="sh-pay" role="dialog" aria-modal="true" aria-labelledby="t-pay">
+  <div class="sheet">
+    <div class="sheet-h"><h2 id="t-pay">Pay invoice</h2><button class="x" data-close aria-label="Close">×</button></div>
+    <div class="stack" id="pay-body"></div>
+  </div>
+</div>
+
+<div class="sheet-bg" id="sh-model" role="dialog" aria-modal="true" aria-labelledby="t-model">
+  <div class="sheet">
+    <div class="sheet-h"><h2 id="t-model">Where’s the model number?</h2><button class="x" data-close aria-label="Close">×</button></div>
+    <div class="stack" id="model-body"></div>
+  </div>
+</div>
+
+<div class="sheet-bg" id="sh-install" role="dialog" aria-modal="true" aria-labelledby="t-inst">
+  <div class="sheet">
+    <div class="sheet-h"><h2 id="t-inst">Install the app</h2><button class="x" data-close aria-label="Close">×</button></div>
+    <div class="seg" id="os-seg" style="grid-template-columns:repeat(3,1fr)"><button type="button" data-os="ios" aria-pressed="true">iPhone</button><button type="button" data-os="android" aria-pressed="false">Android</button><button type="button" data-os="desktop" aria-pressed="false">Computer</button></div>
+    <ol id="os-steps" style="margin:16px 0 0;padding-left:22px;display:grid;gap:10px"></ol>
+  </div>
+</div>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script src="content.js"></script>
+<script>
+(function(){
+  var C=window.SITE||{};
+  var PHONE1=C.phone1||'916-235-0084', EMAIL=C.email||'pacificrepairsolutions@gmail.com';
+  var TEL='+1'+PHONE1.replace(/\D/g,'').slice(-10);
+
+  // ---------- storage ----------
+  var KEY='pacific-app-v1';
+  var DB={profile:{},appliances:[],requests:[],care:{}};
+  try{var raw=localStorage.getItem(KEY);if(raw){var d=JSON.parse(raw);DB.profile=d.profile||{};DB.appliances=(d.appliances||[]).map(function(x){x.type=String(x.type||'').replace(/^t:/,'');return x;});DB.requests=d.requests||[];DB.care=d.care||{};}}catch(_){}
+  function save(){try{localStorage.setItem(KEY,JSON.stringify(DB));return true;}catch(e){toast('Phone storage is full. Remove a photo and try again.');return false;}}
+
+  function $(id){return document.getElementById(id);}
+  function esc(s){return String(s==null?'':s).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];});}
+  function toast(t){var el=$('toast');el.textContent=t;el.classList.add('show');clearTimeout(toast.t);toast.t=setTimeout(function(){el.classList.remove('show');},2600);}
+  function today(){var d=new Date();d.setHours(0,0,0,0);return d;}
+  function fmt(d){return new Date(d).toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'});}
+  function uid(){return Date.now().toString(36)+Math.random().toString(36).slice(2,6);}
+
+  // contacts from content.js
+  document.querySelectorAll('[data-tel]').forEach(function(a){a.href='tel:'+TEL;});
+  document.querySelectorAll('[data-sms]').forEach(function(a){a.href='sms:'+TEL;});
+  document.querySelectorAll('[data-mail]').forEach(function(a){a.href='mailto:'+EMAIL;});
+  document.querySelectorAll('[data-txt="phone1"]').forEach(function(s){s.textContent=PHONE1;});
+  if(C.hours)$('hours-line').textContent=C.hours;
+
+  // ---------- data ----------
+  var TYPES=[
+    ['Refrigerator','Appliances'],['Washer','Appliances'],['Dryer','Appliances'],['Dishwasher','Appliances'],['Oven & range','Appliances'],['Cooktop','Appliances'],['Microwave','Appliances'],['Ice maker','Appliances'],['Wine cooler','Appliances'],
+    ['Central AC','Heating & AC'],['Furnace','Heating & AC'],['Heat pump','Heating & AC'],['Mini-split','Heating & AC'],['Thermostat','Heating & AC'],
+    ['Electrical panel','Electrical'],['Outlets & switches','Electrical'],['EV charger','Electrical'],['Lighting','Electrical'],['Ceiling fan','Electrical']
+  ];
+  var CARE={
+    'Refrigerator':[['coils','Clean condenser coils',180,'Dusty coils make the compressor work harder.'],['filter','Replace water filter',180,'Keeps ice and water clean and flowing.']],
+    'Washer':[['drum','Run a drum-clean cycle',30,'Stops odors and mold on the door seal.'],['hoses','Check fill hoses',365,'Cracked hoses are a top cause of floods.']],
+    'Dryer':[['vent','Clean the dryer vent',365,'Lint buildup causes long cycles and fire risk.']],
+    'Dishwasher':[['filter','Clean the filter',30,'Better cleaning, fewer drain problems.']],
+    'Central AC':[['filter','Replace air filter',90,'A clogged filter can freeze the coil.'],['tune','Spring AC tune-up',365,'Catch problems before the summer heat.']],
+    'Heat pump':[['filter','Replace air filter',90,'Keeps airflow and efficiency up.'],['tune','Yearly tune-up',365,'Check refrigerant, coils and electrical.']],
+    'Furnace':[['filter','Replace air filter',90,'Better heat and cleaner air.'],['tune','Fall furnace tune-up',365,'Safety check before the cold.']],
+    'Mini-split':[['filter','Wash indoor filters',30,'Rinse with water and let dry.']],
+    'Ice maker':[['clean','Clean and sanitize',180,'Prevents slow ice and bad taste.']],
+    'Thermostat':[['batt','Replace thermostat batteries',365,'A dead thermostat can shut off heat or AC.']],
+    'Electrical panel':[['panel','Check the panel for warm or buzzing breakers',365,'Heat or buzzing means a loose connection — call us.']],
+    'Outlets & switches':[['gfci','Test GFCI outlets (TEST, then RESET)',30,'Makes sure they protect you from shocks.']],
+    'EV charger':[['ev','Inspect the charging cable and plug',180,'Look for cracks, melting or heat at the plug.']],
+    'Ceiling fan':[['fan','Tighten blades and check for wobble',365,'Wobble wears the motor and mount.']]
+  };
+  var GENERAL=[['Central AC','filter'],['Furnace','tune'],['Outlets & switches','gfci'],['Dryer','vent'],['Refrigerator','coils'],['Dishwasher','filter']];
+  var TIMES=(C.bookingTimes&&C.bookingTimes.length)?C.bookingTimes:['As soon as possible','Today','Tomorrow morning','Tomorrow afternoon','This week, flexible'];
+  var MODEL_TIPS=[
+    ['Refrigerator','Inside on the left or right wall near the top, or on the ceiling of the fridge section.'],
+    ['Washer','Top-load: under the lid or on the back. Front-load: around the door frame.'],
+    ['Dryer','Inside the door frame, or on the back panel.'],
+    ['Dishwasher','On the edge of the door or on the side of the tub when the door is open.'],
+    ['Oven & range','Open the oven door or pull out the bottom drawer; check the frame.'],
+    ['Microwave','Inside the door frame or on the back.'],
+    ['AC / heat pump','On the outdoor unit’s side panel, a metal label.'],
+    ['Furnace','Inside the front access panel.']
+  ];
+
+  // fill selects
+  function fillTypes(sel,withMine){
+    sel.innerHTML='';
+    if(withMine&&DB.appliances.length){
+      var og=document.createElement('optgroup');og.label='My home';
+      DB.appliances.forEach(function(a){var o=document.createElement('option');o.value='a:'+a.id;o.textContent=(a.brand?a.brand+' ':'')+a.type;og.appendChild(o);});
+      sel.appendChild(og);
+    }
+    var groups={};
+    TYPES.forEach(function(t){(groups[t[1]]=groups[t[1]]||[]).push(t[0]);});
+    Object.keys(groups).forEach(function(g){var og=document.createElement('optgroup');og.label=g;groups[g].forEach(function(n){var o=document.createElement('option');o.value='t:'+n;o.textContent=n;og.appendChild(o);});sel.appendChild(og);});
+    if(withMine){var o=document.createElement('option');o.value='t:Tune-up';o.textContent='Maintenance / tune-up';sel.appendChild(o);var o2=document.createElement('option');o2.value='t:Not sure';o2.textContent='Not sure / something else';sel.appendChild(o2);}
+  }
+  fillTypes($('a-type'),false);
+
+  // ---------- navigation ----------
+  var current='home';
+  function go(v){
+    current=v;
+    document.querySelectorAll('.view').forEach(function(s){s.classList.toggle('on',s.id==='v-'+v);});
+    document.querySelectorAll('.tabbar button').forEach(function(b){if(b.dataset.go===v)b.setAttribute('aria-current','page');else b.removeAttribute('aria-current');});
+    window.scrollTo(0,0);
+    render();
+  }
+  var lastFocus=null;
+  function openSheet(name,opts){
+    opts=opts||{};lastFocus=document.activeElement;
+    if(name==='book')prepBook(opts);
+    if(name==='appliance')prepAppl(opts.id);
+    if(name==='pay')prepPay();
+    if(name==='model')prepModel();
+    var sh=$('sh-'+name);sh.classList.add('show');
+    var f=sh.querySelector('input:not([type=hidden]),select,textarea,button');if(f)try{f.focus({preventScroll:true});}catch(_){}
+  }
+  function closeSheets(){document.querySelectorAll('.sheet-bg.show').forEach(function(s){s.classList.remove('show');});if(lastFocus)try{lastFocus.focus();}catch(_){}}
+  document.addEventListener('click',function(e){
+    var g=e.target.closest('[data-go]');
+    if(g){go(g.dataset.go);if(g.dataset.then==='add')openSheet('appliance');return;}
+    var o=e.target.closest('[data-open]');
+    if(o){e.preventDefault();openSheet(o.dataset.open,{kind:o.dataset.kind,svc:o.dataset.svc,appl:o.dataset.appl,id:o.dataset.id,cat:o.dataset.cat});return;}
+    if(e.target.closest('[data-close]')){closeSheets();return;}
+    if(e.target.classList.contains('sheet-bg'))closeSheets();
+  });
+  document.addEventListener('keydown',function(e){if(e.key==='Escape')closeSheets();});
+
+  // ---------- render ----------
+  function careItems(){
+    var list=[],seen={};
+    var types=DB.appliances.map(function(a){return a.type;});
+    var source=types.length?types:GENERAL.map(function(g){return g[0];});
+    source.forEach(function(t){
+      (CARE[t]||[]).forEach(function(c){
+        if(!types.length&&!GENERAL.some(function(g){return g[0]===t&&g[1]===c[0];}))return;
+        var k=t+'|'+c[0];if(seen[k])return;seen[k]=1;
+        var last=DB.care[k]?new Date(DB.care[k]):null;
+        var due=last?new Date(last.getTime()+c[2]*864e5):today();
+        var days=Math.round((due-today())/864e5);
+        list.push({key:k,type:t,title:c[1],every:c[2],why:c[3],last:last,due:due,days:days});
+      });
+    });
+    list.sort(function(a,b){return a.days-b.days;});
+    return list;
+  }
+  function pill(days,last){
+    if(!last)return '<span class="pill info">Not tracked yet</span>';
+    if(days<0)return '<span class="pill due">Overdue '+(-days)+' d</span>';
+    if(days<=14)return '<span class="pill soon">Due in '+days+' d</span>';
+    return '<span class="pill ok">Next '+fmt(Date.now()+days*864e5)+'</span>';
+  }
+  var STATUS=['Sent','Scheduled','Technician on the way','Completed'];
+  function render(){
+    var p=DB.profile;
+    $('hello-name').textContent=p.name?('Hi, '+p.name.split(' ')[0]+' 👋'):'Hi there 👋';
+
+    // home next
+    var nx=$('home-next'),html='';
+    var open=DB.requests.filter(function(r){return r.status<3;});
+    if(open.length){var r=open[0];html+='<h2 style="font-size:17px;margin-bottom:10px">Your repair</h2><div class="card"><div class="next"><span class="ic" style="background:var(--blue-soft);color:var(--blue)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></span><div><b>'+esc(r.what)+'</b><span>'+STATUS[r.status]+' · '+esc(r.time)+'</span></div><button class="btn btn-l btn-s" data-go="requests">View</button></div></div>';}
+    var ci=careItems().filter(function(c){return c.last&&c.days<=14;});
+    if(ci.length){var c=ci[0];html+='<h2 style="font-size:17px;margin:'+(open.length?'18px':'0')+' 0 10px">Maintenance due</h2><div class="card"><div class="next"><span class="ic" style="background:var(--amber-soft);color:var(--amber)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 12V7l-8-4-8 4v5c0 5 3.5 8 8 9 4.5-1 8-4 8-9z"/></svg></span><div><b>'+esc(c.title)+'</b><span>'+esc(c.type)+'</span></div><button class="btn btn-l btn-s" data-go="care">Open</button></div></div>';}
+    if(!html&&!DB.appliances.length)html='<div class="card"><div class="next"><span class="ic" style="background:var(--blue-soft);color:var(--blue)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="2.5" width="12" height="19" rx="2"/><path d="M6 9.5h12"/></svg></span><div><b>Add your appliances &amp; systems</b><span>Fridge, AC, furnace, panel — get reminders and faster repairs.</span></div><button class="btn btn-b btn-s" data-go="appliances" data-then="add">Add</button></div></div>';
+    nx.innerHTML=html;
+
+    // appliances
+    var al=$('appl-list');
+    if(!DB.appliances.length){al.innerHTML='<div class="card empty"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="2.5" width="12" height="19" rx="2"/><path d="M6 9.5h12M9 5.5v2M9 12.5v3"/></svg></div><h2 style="font-size:18px">Nothing added yet</h2><p>Add your fridge, washer, AC, furnace, water heater panel or EV charger. We’ll remind you about maintenance.</p><button class="btn btn-b" data-open="appliance">Add equipment</button></div>';}
+    else al.innerHTML=DB.appliances.map(function(a){
+      var age=a.year?(new Date().getFullYear()-(+a.year))+' yrs old':'';
+      var sub=[a.model?('Model '+a.model):'',age].filter(Boolean).join(' · ')||'Tap Edit to add the model number';
+      return '<div class="card item"><span class="thumb">'+(a.photo?'<img alt="" src="'+a.photo+'">':'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="2.5" width="12" height="19" rx="2"/><path d="M6 9.5h12M9 5.5v2M9 12.5v3"/></svg>')+'</span><div class="meta"><b>'+esc((a.brand?a.brand+' ':'')+a.type)+'</b><span>'+esc(sub)+'</span></div><div style="display:grid;gap:6px"><button class="btn btn-o btn-s" data-open="book" data-appl="'+a.id+'">Repair</button><button class="btn btn-l btn-s" data-open="appliance" data-id="'+a.id+'">Edit</button></div></div>';
+    }).join('');
+
+    // care
+    var cl=$('care-list'),items=careItems();
+    var intro=DB.appliances.length?'':'<div class="tip"><b>Tip:</b> add your appliances to get a plan made for your home. Here are the basics every home needs.</div>';
+    cl.innerHTML=intro+items.map(function(c){
+      return '<div class="card task"><div class="task-top"><div><b>'+esc(c.title)+'</b><span>'+esc(c.type)+' · every '+(c.every>=365?'year':c.every>=180?'6 months':c.every>=90?'3 months':'month')+'</span></div>'+pill(c.days,c.last)+'</div><p class="hint">'+esc(c.why)+(c.last?' Last done '+fmt(c.last)+'.':'')+'</p><div class="row"><button class="btn btn-b btn-s" data-done="'+esc(c.key)+'">Done today</button><button class="btn btn-l btn-s" data-ics="'+esc(c.key)+'">Add reminder</button><button class="btn btn-l btn-s" data-open="book" data-svc="'+esc(c.type)+'">Book help</button></div></div>';
+    }).join('');
+
+    // requests
+    var rl=$('req-list');
+    if(!DB.requests.length){rl.innerHTML='<div class="card empty"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3 8-8"/><path d="M20 12v7a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h9"/></svg></div><h2 style="font-size:18px">No requests yet</h2><p>Book a repair and you can follow it here.</p><button class="btn btn-o" data-open="book">Book a repair</button></div>';}
+    else rl.innerHTML=DB.requests.map(function(r){
+      var bars=STATUS.map(function(_,i){return '<i class="'+(i<=r.status?'on':'')+'"></i>';}).join('');
+      var actions=r.status<3?'<button class="btn btn-l btn-s" data-adv="'+r.id+'">Update status</button><a class="btn btn-l btn-s" href="sms:'+TEL+'?&body='+encodeURIComponent('Hi! Checking on my request: '+r.what+' ('+fmt(r.created)+').')+'">Ask for status</a>':'<button class="btn btn-l btn-s" data-del="'+r.id+'">Remove</button>';
+      return '<div class="card"><div class="task-top"><div><b>'+esc(r.what)+'</b><span>'+(r.wo?'WO #'+esc(r.wo)+' · ':'')+(r.kind==='virtual'?'Virtual video call':'In-home visit')+' · '+esc(r.time)+'</span></div><span class="pill '+(r.status===3?'ok':'info')+'">'+STATUS[r.status]+'</span></div><div class="steps-mini" aria-hidden="true">'+bars+'</div><p class="hint" style="margin-top:8px">We text you each update. Sent '+fmt(r.created)+(r.problem?' · '+esc(r.problem):'')+'</p><div class="task row" style="display:flex;gap:8px;flex-wrap:wrap;margin-top:10px">'+actions+'</div></div>';
+    }).join('');
+  }
+
+  document.addEventListener('click',function(e){
+    var d=e.target.closest('[data-done]');
+    if(d){DB.care[d.dataset.done]=today().toISOString();save();render();toast('Nice! Next reminder is set.');return;}
+    var i=e.target.closest('[data-ics]');
+    if(i){var c=careItems().filter(function(x){return x.key===i.dataset.ics;})[0];if(c)ics(c);return;}
+    var a=e.target.closest('[data-adv]');
+    if(a){var r=DB.requests.filter(function(x){return x.id===a.dataset.adv;})[0];if(r&&r.status<3){r.status++;save();render();toast('Status: '+STATUS[r.status]);}return;}
+    var x=e.target.closest('[data-del]');
+    if(x){DB.requests=DB.requests.filter(function(r){return r.id!==x.dataset.del;});save();render();}
+  });
+
+  function ics(c){
+    var due=c.days<0?new Date(today().getTime()+864e5):c.due;
+    var dt=due.toISOString().slice(0,10).replace(/-/g,'');
+    var rr=c.every>=365?'FREQ=YEARLY':c.every>=180?'FREQ=MONTHLY;INTERVAL=6':c.every>=90?'FREQ=MONTHLY;INTERVAL=3':'FREQ=MONTHLY';
+    var body=['BEGIN:VCALENDAR','VERSION:2.0','PRODID:-//Pacific Repair//App//EN','BEGIN:VEVENT','UID:'+uid()+'@pacificrepair','DTSTAMP:'+new Date().toISOString().replace(/[-:]/g,'').slice(0,15)+'Z','DTSTART;VALUE=DATE:'+dt,'SUMMARY:'+c.title+' ('+c.type+')','DESCRIPTION:'+c.why+' Need help? Call Pacific Repair '+PHONE1,'RRULE:'+rr,'END:VEVENT','END:VCALENDAR'].join('\r\n');
+    try{var url=URL.createObjectURL(new Blob([body],{type:'text/calendar'}));var l=document.createElement('a');l.href=url;l.download=c.title.replace(/\W+/g,'-').toLowerCase()+'.ics';document.body.appendChild(l);l.click();l.remove();setTimeout(function(){URL.revokeObjectURL(url);},4000);toast('Open the file to add it to your calendar.');}catch(_){toast('Calendar reminders work once the app is installed.');}
+  }
+
+  // ---------- book (wizard) ----------
+  var ZC={'Appliances':[['Refrigerator','🧊'],['Washer','🧺'],['Dryer','🌀'],['Dishwasher','🍽️'],['Oven & range','🔥'],['Cooktop','🍳'],['Microwave','📡'],['Ice maker','🧊'],['Wine cooler','🍷']],
+    'Heating & AC':[['Central AC','❄️'],['Furnace','🔥'],['Heat pump','♨️'],['Mini-split','🌬️'],['Thermostat','🌡️'],['Tune-up','🛠️']],
+    'Electrical':[['Outlets & switches','🔌'],['Breaker trips','⚡'],['Electrical panel','🗄️'],['EV charger','🚗'],['Lighting','💡'],['Ceiling fan','🪭']]};
+  var ZS={'Refrigerator':['Not cooling','Freezer not freezing','Leaking water','Ice maker not working','Loud noise'],'Washer':['Won’t drain','Won’t spin','Leaking','Error code','Won’t start'],
+    'Dryer':['No heat','Takes too long','Won’t start','Loud noise','Burning smell'],'Dishwasher':['Not cleaning','Won’t drain','Leaking','Won’t start'],
+    'Oven & range':['Not heating','Uneven heat','Burner won’t light','Smell of gas'],'Cooktop':['Burner not working','Won’t light','Cracked glass','Smell of gas'],
+    'Microwave':['No heat','Won’t start','Sparks inside'],'Ice maker':['No ice','Slow ice','Leaking'],'Wine cooler':['Not cooling','Too cold','Noise'],
+    'Central AC':['Blowing warm air','Won’t turn on','Ice on lines','Leaking water','Loud noise'],'Furnace':['No heat','Turns on and off','Smell of gas','Strange smell','Loud noise'],
+    'Heat pump':['Not heating','Not cooling','Runs non-stop','Ice on outdoor unit'],'Mini-split':['Not cooling','Not heating','Leaking','Blinking light / error'],
+    'Thermostat':['Install new / smart','Not responding','Blank screen'],'Tune-up':['AC tune-up','Furnace tune-up','Both'],
+    'Outlets & switches':['Outlet not working','Add new outlet','GFCI keeps tripping','Sparks or burning smell'],'Breaker trips':['Breaker keeps tripping','Part of house no power','Burning smell at panel'],
+    'Electrical panel':['Need more power','Old / unsafe panel','For EV / solar / new appliance'],'EV charger':['Install Level 2 charger','Charger not working'],
+    'Lighting':['New fixture','Recessed lights','Flickering lights','Outdoor lights'],'Ceiling fan':['Install fan','Fan not working','Wobbling / noise']};
+  var ZB={'Appliances':['Samsung','LG','Whirlpool','GE','Maytag','KitchenAid','Frigidaire','Bosch','Sub-Zero','Wolf','Viking','Thermador','Miele'],'Heating & AC':['Carrier','Trane','Lennox','Rheem','Goodman','Daikin','Mitsubishi Electric']};
+  var Z={cat:'Appliances',svc:'',brand:'',sym:[],date:'',dateLabel:'',win:'',asap:false,role:'Homeowner',prop:'House',step:1,appl:null};
+  var kind='home';
+  function zStep(n){Z.step=n;document.querySelectorAll('#sh-book .wz').forEach(function(x){x.classList.toggle('on',+x.dataset.z===n);});document.querySelectorAll('#sh-book .wz-steps i').forEach(function(x,i){x.classList.toggle('on',i<n);});if(n===4)zSum();$('sh-book').querySelector('.sheet').scrollTop=0;}
+  function zCats(){$('z-cats').querySelectorAll('button').forEach(function(b){b.setAttribute('aria-pressed',b.dataset.c===Z.cat?'true':'false');});
+    $('z-svcs').innerHTML='';ZC[Z.cat].forEach(function(x){var b=document.createElement('button');b.type='button';b.innerHTML='<i></i><span></span>';b.firstChild.textContent=x[1];b.lastChild.textContent=x[0];b.onclick=function(){zService(x[0]);};$('z-svcs').appendChild(b);});
+    var mine=DB.appliances.filter(function(a){return catOf(a.type)===Z.cat;});
+    $('z-mine').innerHTML=mine.length?'<p class="lbl" style="margin-bottom:6px">From my home</p>':'';
+    if(mine.length){var w=document.createElement('div');w.className='chips2';w.style.marginBottom='8px';mine.forEach(function(a){var b=document.createElement('button');b.type='button';b.textContent=(a.brand?a.brand+' ':'')+a.type;b.onclick=function(){zService(a.type,a);};w.appendChild(b);});$('z-mine').appendChild(w);}}
+  $('z-cats').addEventListener('click',function(e){var b=e.target.closest('button');if(b){Z.cat=b.dataset.c;zCats();}});
+  function catOf(t){for(var c in ZC)if(ZC[c].some(function(x){return x[0]===t;}))return c;return t==='Tune-up'?'Heating & AC':null;}
+  function zService(name,appl){
+    Z.cat=catOf(name)||Z.cat;Z.svc=name;Z.sym=[];Z.brand=appl&&appl.brand||'';Z.appl=appl||null;
+    $('z2-title').textContent=name+': tell us more';
+    var bl=ZB[Z.cat];$('z-brandbox').hidden=!bl;$('z-ids').hidden=!bl;$('z-brandok').hidden=true;$('z-brand-other').value='';
+    if(bl){var bx=$('z-brands');bx.innerHTML='';bl.concat(['Not sure']).forEach(function(n){var b=document.createElement('button');b.type='button';b.textContent=n;b.setAttribute('aria-pressed',n===Z.brand?'true':'false');b.onclick=function(){bx.querySelectorAll('button').forEach(function(y){y.setAttribute('aria-pressed','false');});b.setAttribute('aria-pressed','true');Z.brand=n==='Not sure'?'':n;$('z-brand-other').value='';var ok=$('z-brandok');ok.hidden=false;ok.textContent=Z.brand?'✓ Yes, we repair '+Z.brand+'.':'✓ No problem — the technician will check on site.';};bx.appendChild(b);});
+      if(Z.brand&&bl.indexOf(Z.brand)<0)$('z-brand-other').value=Z.brand;}
+    $('z-model').value=appl&&appl.model||'';$('z-serial').value=appl&&appl.serial||'';$('z-desc').value='';$('ze-desc').textContent='';
+    var sx=$('z-sym');sx.innerHTML='';(ZS[name]||['Not working','Noise','Leaking']).concat(['Something else']).forEach(function(t){var b=document.createElement('button');b.type='button';b.textContent=t;b.setAttribute('aria-pressed','false');b.onclick=function(){var on=b.getAttribute('aria-pressed')!=='true';b.setAttribute('aria-pressed',on?'true':'false');if(on)Z.sym.push(t);else Z.sym=Z.sym.filter(function(z){return z!==t;});zSafety();};sx.appendChild(b);});
+    zSafety();zStep(2);
+  }
+  $('z-brand-other').addEventListener('input',function(){if(this.value.trim()){Z.brand=this.value.trim();$('z-brands').querySelectorAll('button').forEach(function(y){y.setAttribute('aria-pressed','false');});}});
+  function zSafety(){var a=$('z-safety'),t='';if(Z.sym.some(function(x){return /gas/i.test(x);}))t='Smell gas? Leave the house and call PG&E or 911 from outside. Don’t switch anything on or off.';else if(Z.sym.some(function(x){return /sparks|burning/i.test(x);}))t='Sparks or burning smell? Stop using it and turn off its breaker if safe. Smoke or fire — call 911. Then call us: we treat this as urgent.';a.textContent=t;a.hidden=!t;}
+  var WK=C.week||[['Monday','8:00','19:00'],['Tuesday','8:00','19:00'],['Wednesday','8:00','19:00'],['Thursday','8:00','19:00'],['Friday','8:00','19:00'],['Saturday','8:00','19:00'],['Sunday','8:00','19:00']];
+  function zDays(){var dx=$('z-days');dx.innerHTML='';var now=new Date(new Date().toLocaleString('en-US',{timeZone:'America/Los_Angeles'})),n=0;
+    for(var k=0;k<14&&n<8;k++){var d=new Date(now.getFullYear(),now.getMonth(),now.getDate()+k),w=WK[(d.getDay()+6)%7];if(!w||!w[1])continue;if(k===0&&now.getHours()>=+w[2].split(':')[0]-2)continue;
+      var lab=k===0?'Today':k===1?'Tmrw':d.toLocaleDateString('en-US',{weekday:'short'});var b=document.createElement('button');b.type='button';b.setAttribute('aria-pressed','false');b.innerHTML='<small></small><b></b><small></small>';b.children[0].textContent=lab;b.children[1].textContent=d.getDate();b.children[2].textContent=d.toLocaleDateString('en-US',{month:'short'});
+      (function(d,k,b){b.onclick=function(){dx.querySelectorAll('button').forEach(function(y){y.setAttribute('aria-pressed','false');});b.setAttribute('aria-pressed','true');Z.date=d.getFullYear()+'-'+(d.getMonth()+1)+'-'+d.getDate();Z.dateLabel=(k===0?'Today, ':k===1?'Tomorrow, ':'')+d.toLocaleDateString('en-US',{weekday:'long',month:'short',day:'numeric'});$('z-asap').checked=false;Z.asap=false;};})(d,k,b);dx.appendChild(b);n++;}}
+  function pickOne(id,key){$(id).addEventListener('click',function(e){var b=e.target.closest('button');if(!b)return;$(id).querySelectorAll('button').forEach(function(y){y.setAttribute('aria-pressed','false');});b.setAttribute('aria-pressed','true');Z[key]=b.dataset.v;if(key==='role'){var t=Z.role!=='Homeowner';$('z-ownerbox').hidden=!t;$('z-owner-l').textContent=Z.role==='Tenant / renter'?'Owner / landlord name':'Owner name (if different)';}});}
+  pickOne('z-win','win');pickOne('z-role','role');pickOne('z-prop','prop');
+  $('z-asap').addEventListener('change',function(){Z.asap=this.checked;if(Z.asap){Z.date='';Z.dateLabel='';$('z-days').querySelectorAll('button').forEach(function(y){y.setAttribute('aria-pressed','false');});}});
+  function setKind(k){kind=k;$('kind-seg').querySelectorAll('button').forEach(function(b){b.setAttribute('aria-pressed',b.dataset.kind===k?'true':'false');});$('kind-hint').textContent=k==='virtual'?'A technician video-calls you and tells you what it needs. Great for quick questions.':'A technician comes to your home, diagnoses the problem and gives you a fixed price.';}
+  $('kind-seg').addEventListener('click',function(e){var b=e.target.closest('button');if(b)setKind(b.dataset.kind);});
+  $('sh-book').addEventListener('click',function(e){
+    if(e.target.closest('[data-zb]')){zStep(Math.max(1,Z.step-1));return;}
+    var n=e.target.closest('[data-zn]');if(!n)return;var to=+n.dataset.zn;
+    if(to===3&&!Z.sym.length&&!$('z-desc').value.trim()){$('ze-desc').textContent='Pick what’s happening or describe it in a few words.';return;}
+    if(to===4&&!Z.asap&&!Z.date){$('ze-when').textContent='Pick a day or “As soon as possible”.';return;}
+    $('ze-desc').textContent='';$('ze-when').textContent='';zStep(to);
+  });
+  function zWhen(){return Z.asap?'As soon as possible':(Z.dateLabel+(Z.win?' · '+Z.win:''));}
+  function zSum(){var r=[['Service',[Z.brand,Z.svc].filter(Boolean).join(' ')],['Problem',Z.sym.join(', ')||$('z-desc').value.trim()],['When',zWhen()],['Visit',kind==='virtual'?'Virtual video call':'Technician at home']];
+    $('z-sum').innerHTML=r.map(function(x){var d=document.createElement('div');d.innerHTML='<span></span><b></b>';d.children[0].textContent=x[0];d.children[1].textContent=x[1]||'—';return d.outerHTML;}).join('');}
+  function prepBook(o){
+    Z={cat:o.cat||'Appliances',svc:'',brand:'',sym:[],date:'',dateLabel:'',win:'',asap:false,role:DB.profile.role||'Homeowner',prop:DB.profile.prop||'House',step:1,appl:null};
+    setKind(o.kind==='virtual'?'virtual':'home');zCats();zDays();$('z-asap').checked=false;
+    ['z-win'].forEach(function(id){$(id).querySelectorAll('button').forEach(function(y){y.setAttribute('aria-pressed','false');});});
+    ['z-role','z-prop'].forEach(function(id){var key=id==='z-role'?'role':'prop';$(id).querySelectorAll('button').forEach(function(y){y.setAttribute('aria-pressed',y.dataset.v===Z[key]?'true':'false');});});
+    $('z-ownerbox').hidden=Z.role==='Homeowner';
+    var p=DB.profile;$('b-name').value=p.name||'';$('b-phone').value=p.phone||'';$('b-email').value=p.email||'';$('b-addr').value=p.addr||'';$('b-unit').value=p.unit||'';$('b-zip').value=p.zip||'';$('b-city').value=p.city||'';$('b-gate').value=p.gate||'';$('b-access').value='';$('z-owner').value=p.owner||'';$('z-owner-ph').value=p.ownerPh||'';
+    ['e-bname','e-bphone','e-baddr','e-bzip','ze-desc','ze-when'].forEach(function(id){$(id).textContent='';});
+    if(o.appl){var ap=DB.appliances.filter(function(a){return a.id===o.appl;})[0];if(ap){zService(ap.type,ap);return;}}
+    if(o.svc){var sv=o.svc==='Central AC'||catOf(o.svc)?o.svc:null;if(sv){zService(sv);return;}}
+    zStep(1);
+  }
+  function zipOk(z){var areas=(C.areas||[]);if(!areas.length)return true;return areas.some(function(a){return (' '+a.zips+' ').indexOf(' '+z+' ')>=0;});}
+  function zipCity(z){var a=(C.areas||[]).filter(function(a){return (' '+a.zips+' ').indexOf(' '+z+' ')>=0;})[0];return a?a.city:'';}
+  $('b-zip').addEventListener('input',function(){var z=this.value.trim();if(z.length===5){$('e-bzip').textContent=zipOk(z)?'':'Outside our usual area — we’ll call you.';if(!$('b-city').value.trim())$('b-city').value=zipCity(z);}});
+  function newWO(){var d=new Date(new Date().toLocaleString('en-US',{timeZone:'America/Los_Angeles'}));function p(n){return (n<10?'0':'')+n;}
+    return 'PR-'+String(d.getFullYear()).slice(2)+p(d.getMonth()+1)+p(d.getDate())+'-'+p(d.getHours())+p(d.getMinutes())+Math.floor(10+Math.random()*90);}
+  function emailBooking(data){
+    var to=(C.bookingEmail||'').trim();if(!to)return Promise.resolve(false);
+    var what=[data.brand,data.service].filter(Boolean).join(' ')||'Service request';
+    var problem=[data.symptoms,data.problem].filter(Boolean).join(' — ');
+    var msg={
+      _subject:'Repair Instruction · Work Order #'+data.wo+' · '+what+(data.symptoms?' — '+data.symptoms.split(', ')[0]:'')+' · '+(data.city?data.city+' ':'')+(data.zip||''),
+      _template:'table',_captcha:'false',
+      'Repair Instruction':'You have been assigned a new repair instruction. Please review the work order below and contact the customer to confirm the appointment.',
+      'Work Order #':data.wo,
+      'Status':'NEW — awaiting confirmation',
+      'Service Type':(data.category?data.category+' · ':'')+(data.service||'')+(data.kind==='virtual'?' (virtual video visit)':' (in-home)'),
+      'Brand':data.brand||'Not specified',
+      'Model #':data.model||'—',
+      'Serial #':data.serial||'—',
+      'Customer Complaint':problem||'Not described',
+      'Appointment Window':data.time||'—',
+      'Customer':data.name||'',
+      'Phone':data.phone||'',
+      'Service Address':data.address||[data.street,data.zip].filter(Boolean).join(' '),
+      'Property':data.property||'—',
+      'Gate Code':data.gate||'—',
+      'Booked By':(data.role||'—')+(data.owner?' · Owner/manager: '+data.owner:''),
+      'Map':data.address?'https://www.google.com/maps/search/?api=1&query='+encodeURIComponent(data.address):'—',
+      'Access Notes':data.access||'—',
+      'Customer Email':data.email||'—',
+      'Booked Via':(data.source==='app'?'Customer app':'Website')+' · '+(data.created||'')};
+    if(data.email)msg._replyto=data.email;
+    if(C.alsoNotify&&C.alsoNotify.length)msg._cc=C.alsoNotify.join(',');
+    return fetch('https://formsubmit.co/ajax/'+encodeURIComponent(to),{method:'POST',headers:{'Content-Type':'application/json','Accept':'application/json'},body:JSON.stringify(msg)})
+      .then(function(r){return r.json().catch(function(){return {};}).then(function(j){return r.ok&&(j.success===true||j.success==='true');});}).catch(function(){return false;});
+  }
+  $('book-form').addEventListener('submit',function(e){
+    e.preventDefault();
+    var name=$('b-name').value.trim(),phone=$('b-phone').value.trim(),dg=phone.replace(/\D/g,''),zip=$('b-zip').value.trim(),street=$('b-addr').value.trim(),unit=$('b-unit').value.trim(),city=$('b-city').value.trim();
+    var pOk=dg.length===10||(dg.length===11&&dg[0]==='1');
+    $('e-bname').textContent=name?'':'Enter your name.';$('e-bphone').textContent=pOk?'':'Enter a 10-digit phone.';
+    $('e-baddr').textContent=(kind==='virtual'||street)?'':'Enter the street address.';$('e-bzip').textContent=(kind==='virtual'||/^\d{5}$/.test(zip))?$('e-bzip').textContent:'5-digit ZIP.';
+    if(!name||!pOk||(kind!=='virtual'&&(!street||!/^\d{5}$/.test(zip))))return;
+    if(dg.length===11)dg=dg.slice(1);var ph='('+dg.slice(0,3)+') '+dg.slice(3,6)+'-'+dg.slice(6);
+    var full=street?street+(unit?', '+unit:'')+', '+(city?city+', ':'')+'CA '+zip:'';
+    var what=[Z.brand,Z.svc].filter(Boolean).join(' ');
+    var ownerTxt=Z.role!=='Homeowner'?[$('z-owner').value.trim(),$('z-owner-ph').value.trim()].filter(Boolean).join(' · '):'';
+    var data={'form-name':'booking',wo:newWO(),source:'app',kind:kind==='virtual'?'virtual':'in-home',category:Z.cat,service:Z.svc,brand:Z.brand,model:$('z-model').value.trim().toUpperCase(),serial:$('z-serial').value.trim().toUpperCase(),
+      symptoms:Z.sym.join(', '),problem:$('z-desc').value.trim(),date:Z.asap?'ASAP':Z.date,window:Z.asap?'ASAP':Z.win,time:zWhen(),name:name,phone:ph,email:$('b-email').value.trim(),
+      role:Z.role,owner:ownerTxt,property:Z.prop+(unit?' · '+unit:''),gate:$('b-gate').value.trim(),street:street,unit:unit,city:city,zip:zip,address:full,access:$('b-access').value.trim(),appliance:what,
+      created:new Date().toLocaleString('en-US',{timeZone:'America/Los_Angeles'})};
+    var r={id:uid(),wo:data.wo,what:what||Z.svc,kind:kind,problem:data.symptoms||data.problem,time:data.time,created:Date.now(),status:0};
+    DB.requests.unshift(r);
+    DB.profile=Object.assign({},DB.profile,{name:name,phone:phone,email:data.email,addr:street,unit:unit,zip:zip,city:city,gate:data.gate,role:Z.role,prop:Z.prop,owner:$('z-owner').value.trim(),ownerPh:$('z-owner-ph').value.trim()});
+    save();
+    var msg='Work order #'+data.wo+' — '+(kind==='virtual'?'VIRTUAL visit':'Repair')+' request from the app\n'+what+'\nProblem: '+([data.symptoms,data.problem].filter(Boolean).join(' — ')||'-')+'\nWhen: '+data.time+'\n'+name+' · '+ph+(full?'\n'+full:'')+(data.gate?'\nGate: '+data.gate:'');
+    var jobs=[];
+    if(location.protocol==='https:'){var body=new URLSearchParams();Object.keys(data).forEach(function(k){body.append(k,data[k]||'');});jobs.push(fetch('/',{method:'POST',headers:{'Content-Type':'application/x-www-form-urlencoded'},body:body.toString()}).then(function(x){return x.ok;}).catch(function(){return false;}));}
+    jobs.push(emailBooking(data));
+    if(C.sheetWebhook)jobs.push(fetch(C.sheetWebhook,{method:'POST',mode:'no-cors',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify(data)}).then(function(){return true;}).catch(function(){return false;}));
+    closeSheets();go('requests');toast('Sending…');
+    Promise.all(jobs).then(function(res){
+      if(res.some(Boolean)){toast('Request sent! Work order #'+data.wo);}
+      else{toast('Couldn’t send online. Opening a text instead.');setTimeout(function(){location.href='sms:'+TEL+'?&body='+encodeURIComponent(msg);},600);}
+    });
+  });
+
+  // ---------- appliance ----------
+  var photoData=null;
+  function prepAppl(id){
+    var a=id?DB.appliances.filter(function(x){return x.id===id;})[0]:null;
+    $('t-appl').textContent=a?'Edit equipment':'Add equipment';
+    $('a-id').value=a?a.id:'';$('a-type').value='t:'+(a?a.type:'Refrigerator');$('a-brand').value=a?a.brand||'':'';$('a-year').value=a?a.year||'':'';$('a-model').value=a?a.model||'':'';$('a-serial').value=a?a.serial||'':'';$('a-notes').value=a?a.notes||'':'';
+    photoData=a?a.photo||null:null;showThumb();$('a-delete').hidden=!a;$('a-photo').value='';
+  }
+  function showThumb(){var t=$('a-thumb');if(photoData){t.innerHTML='<img alt="Model sticker photo" src="'+photoData+'">';}else t.innerHTML='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h3l2-3h6l2 3h3a1 1 0 0 1 1 1v11a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V8a1 1 0 0 1 1-1z"/><circle cx="12" cy="13" r="4"/></svg>';}
+  $('a-photo').addEventListener('change',function(){
+    var f=this.files&&this.files[0];if(!f)return;
+    var rd=new FileReader();rd.onload=function(){var im=new Image();im.onload=function(){var max=900,s=Math.min(1,max/Math.max(im.width,im.height));var cv=document.createElement('canvas');cv.width=Math.round(im.width*s);cv.height=Math.round(im.height*s);cv.getContext('2d').drawImage(im,0,0,cv.width,cv.height);photoData=cv.toDataURL('image/jpeg',.72);showThumb();};im.onerror=function(){toast('That photo couldn’t be opened. Try another one.');};im.src=rd.result;};rd.readAsDataURL(f);
+  });
+  $('appl-form').addEventListener('submit',function(e){
+    e.preventDefault();
+    var id=$('a-id').value,a=id?DB.appliances.filter(function(x){return x.id===id;})[0]:{id:uid()};
+    a.type=$('a-type').value.replace(/^t:/,'');a.brand=$('a-brand').value.trim();a.year=$('a-year').value.replace(/\D/g,'').slice(0,4);a.model=$('a-model').value.trim().toUpperCase();a.serial=$('a-serial').value.trim().toUpperCase();a.notes=$('a-notes').value.trim();a.photo=photoData;
+    if(!id)DB.appliances.push(a);
+    if(save()){closeSheets();render();toast(id?'Appliance updated':'Appliance added');}
+  });
+  $('a-delete').addEventListener('click',function(){var id=$('a-id').value;DB.appliances=DB.appliances.filter(function(x){return x.id!==id;});save();closeSheets();render();toast('Appliance deleted');});
+
+  // ---------- pay ----------
+  function prepPay(){
+    var b=$('pay-body'),h='';
+    if(C.paymentLink)h+='<p>Pay securely online with a card. Have your invoice number ready.</p><a class="btn btn-o btn-block" href="'+esc(C.paymentLink)+'" target="_blank" rel="noopener">Pay online</a>';
+    if(C.zelle)h+='<div class="tip"><b>Zelle:</b> send to '+esc(C.zelle)+'. Put your invoice number in the note.</div>';
+    h+='<p class="hint">'+(C.paymentLink||C.zelle?'Prefer to pay by phone? ':'Pay by card over the phone or ask for a payment link by text. ')+'Our office is happy to help.</p>';
+    h+='<a class="btn btn-l btn-block" href="tel:'+TEL+'">Call to pay</a><a class="btn btn-l btn-block" href="sms:'+TEL+'?&body='+encodeURIComponent('Hi! Please send me a payment link for my invoice #')+'">Text me a payment link</a>';
+    b.innerHTML=h;
+  }
+  // ---------- model ----------
+  function prepModel(){$('model-body').innerHTML='<p class="hint">Look for a sticker or metal plate. Take a photo of it and add it to your appliance.</p>'+MODEL_TIPS.map(function(t){return '<div class="tip"><b>'+esc(t[0])+':</b> '+esc(t[1])+'</div>';}).join('');}
+
+  // ---------- profile ----------
+  var p=DB.profile;$('p-name').value=p.name||'';$('p-phone').value=p.phone||'';$('p-addr').value=p.addr||'';$('p-city').value=p.city||'';$('p-zip').value=p.zip||'';
+  $('profile-form').addEventListener('submit',function(e){e.preventDefault();DB.profile=Object.assign({},DB.profile,{name:$('p-name').value.trim(),phone:$('p-phone').value.trim(),addr:$('p-addr').value.trim(),city:$('p-city').value.trim(),zip:$('p-zip').value.trim()});if(save()){render();toast('Saved');}});
+  $('reset-btn').addEventListener('click',function(){if(confirm('Delete your appliances, photos and requests from this phone?')){DB={profile:{},appliances:[],requests:[],care:{}};save();['p-name','p-phone','p-addr','p-city','p-zip'].forEach(function(id){$(id).value='';});render();toast('Deleted');}});
+
+  // ---------- install ----------
+  var deferred=null,standalone=matchMedia('(display-mode: standalone)').matches||navigator.standalone;
+  if(!standalone)$('install-card').classList.add('show');
+  if(!standalone&&(C.appStoreLink||C.googlePlayLink)){var ua0=navigator.userAgent,ln=/iPhone|iPad|iPod/.test(ua0)?C.appStoreLink:/Android/.test(ua0)?C.googlePlayLink:'';if(ln){var ib=$('install-btn');ib.textContent=/iPhone|iPad|iPod/.test(ua0)?'App Store':'Google Play';ib.onclick=function(e){e.stopImmediatePropagation();location.href=ln;};}}
+  window.addEventListener('beforeinstallprompt',function(e){e.preventDefault();deferred=e;});
+  window.addEventListener('appinstalled',function(){$('install-card').classList.remove('show');toast('App installed');});
+  var OS={ios:['Open this page in Safari.','Tap the Share button at the bottom.','Tap “Add to Home Screen”, then “Add”.'],android:['Open this page in Chrome.','Tap the ⋮ menu at the top right.','Tap “Install app” or “Add to Home screen”.'],desktop:['Open this page in Chrome or Edge.','Click the install icon in the address bar.','Click “Install”.']};
+  function showOS(o){$('os-steps').innerHTML=OS[o].map(function(s){return '<li>'+s+'</li>';}).join('');$('os-seg').querySelectorAll('button').forEach(function(b){b.setAttribute('aria-pressed',b.dataset.os===o?'true':'false');});}
+  $('os-seg').addEventListener('click',function(e){var b=e.target.closest('button');if(b)showOS(b.dataset.os);});
+  $('install-btn').addEventListener('click',function(e){if(deferred){e.preventDefault();deferred.prompt();deferred=null;}});
+
+  // open a section from the link: app.html#book, #appliances, #care, #requests
+  var h=location.hash.replace('#','');
+  if(['appliances','care','requests','account'].indexOf(h)>=0)go(h);else render();
+  if(h==='book')openSheet('book');
+  if(h==='virtual')openSheet('book',{kind:'virtual'});
+
+  if('serviceWorker' in navigator&&location.protocol==='https:'){try{navigator.serviceWorker.register('sw.js').catch(function(){});}catch(_){}}
+})();
+</script>
+</body>
+</html>

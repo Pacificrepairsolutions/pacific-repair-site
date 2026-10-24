@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://heartfelt-shortbread-df3449.netlify.app/sitemap.xml
