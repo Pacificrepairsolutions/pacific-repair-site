@@ -487,7 +487,7 @@ header nav.main a,.nav-phone,.logo.mini b{white-space:nowrap}
 .bgrid{list-style:none;padding:0;margin:0;display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:12px}
 .blogo{position:relative;background:#fff;border:1px solid #E1E7F1;border-radius:14px;height:84px;display:grid;place-items:center;padding:14px;transition:box-shadow .15s,border-color .15s}
 .blogo:hover{border-color:#C9D4EA;box-shadow:0 10px 24px -16px rgba(11,27,58,.35)}
-.blogo span{font-weight:800;font-size:17px;color:#1C2B4A;letter-spacing:-.01em;text-align:center;line-height:1.15}
+.blogo span{font-weight:800;font-size:16px;color:#1C2B4A;letter-spacing:.06em;text-transform:uppercase;text-align:center;line-height:1.2}
 .blogo img{position:absolute;inset:14px;width:calc(100% - 28px);height:calc(100% - 28px);object-fit:contain;background:#fff}
 .blogo img.gone{display:none}
 .blogo img{inset:12px 14px 30px}
@@ -1354,7 +1354,7 @@ footer.site .legal{margin-top:40px;padding-top:20px;border-top:1px solid var(--l
   var BR=C.brands||{luxury:["Sub-Zero", "Wolf", "Viking", "Thermador", "Miele", "Dacor", "Monogram", "GE Profile", "JennAir", "Fisher & Paykel", "Bosch"],major:["Samsung", "LG", "Whirlpool", "Maytag", "KitchenAid", "GE", "Frigidaire", "Electrolux"],hvac:["Carrier", "Trane", "Lennox", "Rheem", "Goodman", "Daikin", "Mitsubishi Electric"]};
   function slug(n){return n.toLowerCase().replace(/&/g,'and').replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'');}
   // Logo sources, in order: your own file in photos/brands/ → official brand mark (Simple Icons, brand colors) → the name
-  var SI={'Samsung':'samsung','LG':'lg','Whirlpool':'whirlpool','Bosch':'bosch','Miele':'miele','Electrolux':'electrolux','GE':'generalelectric','GE Profile':'generalelectric','Monogram':'generalelectric','Frigidaire':'frigidaire','KitchenAid':'kitchenaid','Maytag':'maytag','JennAir':'jennair','Sub-Zero':'subzero','Wolf':'wolf','Viking':'viking','Thermador':'thermador','Dacor':'dacor','Fisher & Paykel':'fisherpaykel','Carrier':'carrier','Trane':'trane','Lennox':'lennox','Rheem':'rheem','Goodman':'goodman','Daikin':'daikin','Mitsubishi Electric':'mitsubishi'};
+  var SI={'Samsung':'samsung','LG':'lg','Whirlpool':'whirlpool','Maytag':'maytag'};
   function logoImg(n,box){
     var im=document.createElement('img');im.alt=n+' logo';im.loading='lazy';
     var srcs=['photos/brands/'+slug(n)+'.png','photos/brands/'+slug(n)+'.svg'];
@@ -1513,6 +1513,7 @@ footer.site .legal{margin-top:40px;padding-top:20px;border-top:1px solid var(--l
       'EV charger':['Install a Level 2 charger','Existing charger not working'],
       'Lighting':['New light fixture','Recessed lights','Outdoor lights','Flickering lights'],
       'Ceiling fans':['Install a fan','Fan not working','Wobbling / noise']};
+    var BY_SVC={"Refrigerator": ["Samsung", "LG", "Whirlpool", "GE", "GE Profile", "Café", "Frigidaire", "KitchenAid", "Maytag", "Bosch", "Electrolux", "Sub-Zero", "Thermador", "Viking", "Miele", "Monogram", "JennAir", "Fisher & Paykel", "Dacor", "Liebherr"], "Washer": ["Samsung", "LG", "Whirlpool", "Maytag", "GE", "GE Profile", "Electrolux", "Bosch", "Miele", "Speed Queen", "Frigidaire", "Kenmore", "Fisher & Paykel"], "Dryer": ["Samsung", "LG", "Whirlpool", "Maytag", "GE", "GE Profile", "Electrolux", "Bosch", "Miele", "Speed Queen", "Frigidaire", "Kenmore", "Fisher & Paykel"], "Dishwasher": ["Bosch", "KitchenAid", "Whirlpool", "Samsung", "LG", "GE", "GE Profile", "Café", "Maytag", "Frigidaire", "Electrolux", "Miele", "Thermador", "JennAir", "Monogram", "Fisher & Paykel", "Cove"], "Oven & range": ["GE", "GE Profile", "Café", "Samsung", "LG", "Whirlpool", "KitchenAid", "Frigidaire", "Maytag", "Bosch", "Wolf", "Viking", "Thermador", "Dacor", "Miele", "Monogram", "JennAir", "BlueStar", "Bertazzoni", "Fisher & Paykel"], "Cooktop": ["GE", "GE Profile", "Café", "Samsung", "LG", "Whirlpool", "KitchenAid", "Frigidaire", "Bosch", "Wolf", "Viking", "Thermador", "Dacor", "Miele", "Monogram", "JennAir", "Fisher & Paykel"], "Microwave": ["GE", "GE Profile", "Samsung", "LG", "Whirlpool", "KitchenAid", "Frigidaire", "Panasonic", "Sharp", "Bosch", "Wolf", "Thermador", "Viking", "Miele", "Dacor", "Monogram"], "Ice maker": ["Scotsman", "U-Line", "Hoshizaki", "GE Profile", "KitchenAid", "Whirlpool", "Sub-Zero", "Marvel", "Viking"], "Wine cooler": ["Sub-Zero", "Viking", "Thermador", "Miele", "Monogram", "U-Line", "Marvel", "Liebherr", "Fisher & Paykel", "Dacor", "Perlick"], "AC repair": ["Carrier", "Trane", "Lennox", "Rheem", "Ruud", "Goodman", "Daikin", "American Standard", "Bryant", "York", "Amana"], "Central AC": ["Carrier", "Trane", "Lennox", "Rheem", "Ruud", "Goodman", "Daikin", "American Standard", "Bryant", "York", "Amana"], "Furnace repair": ["Carrier", "Trane", "Lennox", "Rheem", "Ruud", "Goodman", "American Standard", "Bryant", "York", "Amana"], "Furnace": ["Carrier", "Trane", "Lennox", "Rheem", "Ruud", "Goodman", "American Standard", "Bryant", "York", "Amana"], "Heat pump": ["Carrier", "Trane", "Lennox", "Rheem", "Goodman", "Daikin", "Mitsubishi Electric", "American Standard", "Bryant", "York"], "Mini-split": ["Mitsubishi Electric", "Daikin", "Fujitsu", "LG", "Samsung", "Carrier", "Gree", "Trane"], "Thermostat": ["Google Nest", "ecobee", "Honeywell", "Carrier", "Trane", "Lennox", "Emerson Sensi"], "Tune-up": ["Carrier", "Trane", "Lennox", "Rheem", "Goodman", "Daikin", "Mitsubishi Electric", "American Standard", "Bryant", "York"]};
     var BR_APP=['Samsung','LG','Whirlpool','GE','Maytag','KitchenAid','Frigidaire','Bosch','Electrolux','Sub-Zero','Wolf','Viking','Thermador','Miele','Dacor','Monogram','GE Profile','JennAir','Fisher & Paykel'];
     var BR_HVAC=['Carrier','Trane','Lennox','Rheem','Goodman','Daikin','Mitsubishi Electric'];
     var LUX=['Sub-Zero','Wolf','Viking','Thermador','Miele','Dacor','Monogram','JennAir','Fisher & Paykel','GE Profile'];
@@ -1539,7 +1540,7 @@ footer.site .legal{margin-top:40px;padding-top:20px;border-top:1px solid var(--l
       st.cat=c;st.service=name;st.brand='';st.sym=[];renderServices();
       $('w2-title').textContent=name+': tell us a bit more';
       // brands
-      var list=c==='Appliances'?BR_APP:c==='Heating & AC'?BR_HVAC:null;
+      var list=c==='Electrical'?null:(BY_SVC[name]||(c==='Appliances'?BR_APP:BR_HVAC));
       $('w-brand-wrap').hidden=!list;$('w-brand-ok').hidden=true;$('w-ids').hidden=!list;$('w-ids-hint').hidden=!list;
       if(list){var bx=$('w-brands');bx.innerHTML='';list.concat(['Other / not sure']).forEach(function(n){
         var b=document.createElement('button');b.type='button';b.className='bp'+(n.indexOf('Other')===0?' other':'');b.setAttribute('aria-pressed','false');b.textContent=n;
@@ -1673,7 +1674,7 @@ footer.site .legal{margin-top:40px;padding-top:20px;border-top:1px solid var(--l
         .bindTooltip(a[0],{permanent:LABEL.indexOf(a[0])>=0,direction:'right',offset:[6,0],className:'city-tip'})
         .bindPopup('<b>'+a[0]+'</b><br>'+(same?'Same-day visits usually available':'Call or book online for the earliest time')+'<br><small>ZIP: '+a[1].split(' ').slice(0,6).join(', ')+(a[1].split(' ').length>6?'…':'')+'</small>');
     });
-    if(pts.length)map.fitBounds(pts,{padding:[30,30]});
+    map.setView([38.52,-121.35],window.innerWidth<700?8:9);
     el.parentNode.querySelector('.fallback').style.display='none';
     // zoom with ctrl/cmd + scroll, so the page still scrolls normally
     el.addEventListener('wheel',function(e){if(e.ctrlKey||e.metaKey){map.scrollWheelZoom.enable();setTimeout(function(){map.scrollWheelZoom.disable();},800);}},{passive:true});
