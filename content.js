@@ -22,8 +22,8 @@ window.SITE = {
     ["Wednesday",  "8:00", "19:00"],
     ["Thursday",   "8:00", "19:00"],
     ["Friday",     "8:00", "19:00"],
-    ["Saturday",   "8:00", "19:00"],
-    ["Sunday",     "8:00", "19:00"]
+    ["Saturday",  "", ""],
+    ["Sunday",    "", ""]
   ],
 
   // --- Куда приходят онлайн-заявки ---
@@ -51,7 +51,7 @@ window.SITE = {
   phone1: "916-235-0084",
   phone2: "916-836-7616",
   email:  "pacificrepairsolutions@gmail.com",
-  hours:  "Open 7 days · 8 AM – 7 PM",
+  hours:  "Mon–Fri · 8 AM – 7 PM",
 
   // --- Оплата в приложении ---
   // Ссылка на оплату картой (Square, Stripe, PayPal и т.п.). Пусто — кнопки не будет.

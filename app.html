@@ -274,7 +274,7 @@ input:focus,select:focus,textarea:focus{outline:none;border-color:var(--blue)}
     <a class="btn btn-l btn-block" data-tel="1" href="tel:+19162350084">Call <span data-txt="phone1">916-235-0084</span></a>
     <a class="btn btn-l btn-block" data-sms="1" href="sms:+19162350084">Text us</a>
     <a class="btn btn-l btn-block" data-mail="1" href="mailto:pacificrepairsolutions@gmail.com">Email us</a>
-    <p class="hint" id="hours-line">Open 7 days · 8 AM – 7 PM</p>
+    <p class="hint" id="hours-line">Mon–Fri · 8 AM – 7 PM</p>
   </div>
   <div class="sec card stack">
     <h2 style="font-size:17px">Your data</h2>
@@ -629,7 +629,7 @@ input:focus,select:focus,textarea:focus{outline:none;border-color:var(--blue)}
   }
   $('z-brand-other').addEventListener('input',function(){if(this.value.trim()){Z.brand=this.value.trim();$('z-brands').querySelectorAll('button').forEach(function(y){y.setAttribute('aria-pressed','false');});}});
   function zSafety(){var a=$('z-safety'),t='';if(Z.sym.some(function(x){return /gas/i.test(x);}))t='Smell gas? Leave the house and call PG&E or 911 from outside. Don’t switch anything on or off.';else if(Z.sym.some(function(x){return /sparks|burning/i.test(x);}))t='Sparks or burning smell? Stop using it and turn off its breaker if safe. Smoke or fire — call 911. Then call us: we treat this as urgent.';a.textContent=t;a.hidden=!t;}
-  var WK=C.week||[['Monday','8:00','19:00'],['Tuesday','8:00','19:00'],['Wednesday','8:00','19:00'],['Thursday','8:00','19:00'],['Friday','8:00','19:00'],['Saturday','8:00','19:00'],['Sunday','8:00','19:00']];
+  var WK=C.week||[['Monday','8:00','19:00'],['Tuesday','8:00','19:00'],['Wednesday','8:00','19:00'],['Thursday','8:00','19:00'],['Friday','8:00','19:00'],['Saturday','',''],['Sunday','','']];
   function zDays(){var dx=$('z-days');dx.innerHTML='';var now=new Date(new Date().toLocaleString('en-US',{timeZone:'America/Los_Angeles'})),n=0;
     for(var k=0;k<14&&n<8;k++){var d=new Date(now.getFullYear(),now.getMonth(),now.getDate()+k),w=WK[(d.getDay()+6)%7];if(!w||!w[1])continue;if(k===0&&now.getHours()>=+w[2].split(':')[0]-2)continue;
       var lab=k===0?'Today':k===1?'Tmrw':d.toLocaleDateString('en-US',{weekday:'short'});var b=document.createElement('button');b.type='button';b.setAttribute('aria-pressed','false');b.innerHTML='<small></small><b></b><small></small>';b.children[0].textContent=lab;b.children[1].textContent=d.getDate();b.children[2].textContent=d.toLocaleDateString('en-US',{month:'short'});
