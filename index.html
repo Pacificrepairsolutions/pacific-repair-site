@@ -493,7 +493,7 @@ header nav.main a,.nav-phone,.logo.mini b{white-space:nowrap}
 .blogo2:hover{border-color:#C9D4EA;box-shadow:0 10px 24px -16px rgba(11,27,58,.35)}
 .bic{position:relative;flex:none;width:48px;height:48px;border-radius:12px;background:#EEF2F8;color:#64708A;display:grid;place-items:center;font:800 20px var(--font);overflow:hidden}
 .bic.sm{width:32px;height:32px;border-radius:9px;font-size:14px}
-.bic img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;background:#fff;opacity:0;transition:opacity .2s}
+.bic img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;background:#fff;opacity:0;transition:opacity .2s;image-rendering:auto;-webkit-backface-visibility:hidden}
 .bic img.ok{opacity:1}
 .bic img.gone{display:none}
 .bic.has-logo{background:#fff;box-shadow:inset 0 0 0 1px #E6EBF3}
@@ -504,6 +504,8 @@ header nav.main a,.nav-phone,.logo.mini b{white-space:nowrap}
 .bp:has(img.ok){color:inherit!important}
 .bp .bic img{inset:0!important;width:100%!important;height:100%!important}
 .bp.other .bic{background:#F4F6FA}
+.bic.wide{width:96px}.bic.sm.wide{width:64px}
+.bic.wide img{object-fit:contain;padding:2px}
 /* hero extras */
 .hero-quick{margin-top:22px}
 .hero-quick p{font-size:14px;font-weight:700;color:var(--muted);margin-bottom:10px}
@@ -1283,7 +1285,7 @@ footer.site .legal{margin-top:40px;padding-top:20px;border-top:1px solid var(--l
 <script>
 (function(){
   var C=window.SITE||{};
-  function px(id,w){return 'https://images.pexels.com/photos/'+id+'/pexels-photo-'+id+'.jpeg?auto=compress&cs=tinysrgb&w='+(w||1000);}
+  function px(id,w){return 'https://images.pexels.com/photos/'+id+'/pexels-photo-'+id+'.jpeg?auto=compress&cs=tinysrgb&w='+(w||1200)+'&dpr='+(window.devicePixelRatio>1.5?2:1);}
   // Load your own photo from the photos/ folder first; if it isn't there, use the stock photo
   function loadImg(im,local,stock){
     var tried=false;
@@ -1293,7 +1295,7 @@ footer.site .legal{margin-top:40px;padding-top:20px;border-top:1px solid var(--l
   }
   var photos=C.photos||{};
   document.querySelectorAll('img[data-px]').forEach(function(im){
-    var slot=im.dataset.slot, w=im.closest('.big,.hero-photo')?1600:1000;
+    var slot=im.dataset.slot, w=im.closest('.hero-bg')?2200:im.closest('.big,.hero-photo,.why2-photo')?1600:1200;
     var local=slot?('photos/'+(photos[slot]||slot+'.jpg')):null;
     if(location.protocol!=='http:'&&location.protocol!=='https:'&&location.protocol!=='file:')local=null;
     loadImg(im,local,px(im.dataset.px,w));
@@ -1384,13 +1386,14 @@ footer.site .legal{margin-top:40px;padding-top:20px;border-top:1px solid var(--l
   // Logo sources, in order: your own file in photos/brands/ → Logo.dev (if token set) → Simple Icons → the name
   function logoImg(n,box){
     var im=document.createElement('img');im.alt=n+' logo';im.loading='lazy';
-    var srcs=['photos/brands/'+slug(n)+'.png','photos/brands/'+slug(n)+'.svg'];
-    if(C.logoToken&&DOMAIN[n]&&!NO_LOGODEV[n])srcs.push('https://img.logo.dev/'+DOMAIN[n]+'?token='+encodeURIComponent(C.logoToken)+'&size=200&format=png&retina=true&fallback=404');
+    var srcs=['photos/brands/'+slug(n)+'.png','photos/brands/'+slug(n)+'.svg','photos/brands/'+slug(n)+'.jpg','photos/brands/'+slug(n)+'.jpeg'];
+    // crisp vector marks first (Samsung, LG, Whirlpool, Maytag, Bosch), then Logo.dev at high resolution
     if(SI[n])srcs.push('https://cdn.simpleicons.org/'+SI[n]);
+    if(C.logoToken&&DOMAIN[n]&&!NO_LOGODEV[n]&&!SI[n])srcs.push('https://img.logo.dev/'+DOMAIN[n]+'?token='+encodeURIComponent(C.logoToken)+'&size=256&format=png&retina=true&fallback=404');
     if(EXTRA_LOGO[n])srcs.push(EXTRA_LOGO[n]);
     var i=0;
     im.addEventListener('error',function(){i++;if(i<srcs.length)im.src=srcs[i];else{im.classList.add('gone');if(box)box.classList.remove('has-logo');}});
-    im.addEventListener('load',function(){im.classList.add('ok');if(box)box.classList.add('has-logo');});
+    im.addEventListener('load',function(){im.classList.add('ok');if(box){box.classList.add('has-logo');if(im.naturalWidth/Math.max(1,im.naturalHeight)>1.7)box.classList.add('wide');}});
     im.src=srcs[0];return im;
   }
   function tiles(list){
