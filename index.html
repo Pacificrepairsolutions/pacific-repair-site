@@ -506,6 +506,16 @@ header nav.main a,.nav-phone,.logo.mini b{white-space:nowrap}
 .bp.other .bic{background:#F4F6FA}
 .bic.wide{width:96px}.bic.sm.wide{width:64px}
 .bic.wide img{object-fit:contain;padding:2px}
+
+/* logo already contains the brand name → show only the logo, bigger and centered */
+.blogo2.wm{justify-content:center}
+.blogo2.wm .bname{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+.blogo2.wm .bic{width:180px;height:52px;background:#fff;box-shadow:none}
+.blogo2.wm .bic img{padding:2px}
+.blogo2{position:relative}
+.bp.wm{justify-content:center}
+.bp.wm>span:last-child{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+.bp.wm .bic{width:120px;height:34px;box-shadow:none}
 /* hero extras */
 .hero-quick{margin-top:22px}
 .hero-quick p{font-size:14px;font-weight:700;color:var(--muted);margin-bottom:10px}
@@ -1377,6 +1387,7 @@ footer.site .legal{margin-top:40px;padding-top:20px;border-top:1px solid var(--l
   // Logo sources, in order: your own file in photos/brands/ → official brand mark (Simple Icons, brand colors) → the name
   var SI={'Samsung':'samsung','LG':'lg','Maytag':'maytag','Bosch':'bosch','Mitsubishi Electric':'mitsubishi'};
   var NO_LOGODEV={'Bosch':1,'Thermador':1};
+  var WORDMARK={'Samsung':1,'LG':1,'Maytag':1,'Whirlpool':1,'Wolf':1,'Viking':1,'Thermador':1,'Frigidaire':1,'Miele':1,'Dacor':1,'GE':1,'InSinkErator':1,'Carrier':1,'Goodman':1,'Daikin':1,'Rheem':1};
   var EXTRA_LOGO={'Thermador':'https://cdn.worldvectorlogo.com/logos/thermador.svg'};
   // Official brand logo by company website (Logo.dev, needs a free publishable token in content.js)
   var DOMAIN={'Sub-Zero':'subzero-wolf.com','Viking':'vikingrange.com','Thermador':'thermador.com','Miele':'miele.com','Dacor':'dacor.com','Monogram':'monogram.com','JennAir':'jennair.com','Fisher & Paykel':'fisherpaykel.com','Bosch':'bosch-home.com','GE Profile':'geappliances.com',
@@ -1393,7 +1404,7 @@ footer.site .legal{margin-top:40px;padding-top:20px;border-top:1px solid var(--l
     if(EXTRA_LOGO[n])srcs.push(EXTRA_LOGO[n]);
     var i=0;
     im.addEventListener('error',function(){i++;if(i<srcs.length)im.src=srcs[i];else{im.classList.add('gone');if(box)box.classList.remove('has-logo');}});
-    im.addEventListener('load',function(){im.classList.add('ok');if(box){box.classList.add('has-logo');if(im.naturalWidth/Math.max(1,im.naturalHeight)>1.7)box.classList.add('wide');}});
+    im.addEventListener('load',function(){im.classList.add('ok');if(box){box.classList.add('has-logo');if(im.naturalWidth/Math.max(1,im.naturalHeight)>1.7)box.classList.add('wide');if(WORDMARK[n]&&box.parentNode)box.parentNode.classList.add('wm');}});
     im.src=srcs[0];return im;
   }
   function tiles(list){
