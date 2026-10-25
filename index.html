@@ -432,6 +432,24 @@ header nav.main a,.nav-phone,.logo.mini b{white-space:nowrap}
 .lg-same{background:rgba(220,38,38,.55);border:2px solid #DC2626}
 .lg-next{background:rgba(239,68,68,.2);border:1.5px solid #DC2626}
 .leaflet-tooltip.city-tip{background:#fff;border:0;border-radius:8px;font:700 12.5px var(--font);color:#0B1B3A;padding:3px 8px;box-shadow:0 4px 12px -4px rgba(0,0,0,.35)}
+
+/* ===== polish pass ===== */
+.hours td{color:var(--text)}
+.hero h1{font-size:clamp(38px,4.6vw,62px)}
+#work>.wrap>.kicker,#work>.wrap>h2,#area>.wrap>.kicker,#area>.wrap>h2,#area>.wrap>.lede,#checks>.wrap>.kicker,#checks>.wrap>h2,#checks>.wrap>.lede{text-align:center;margin-left:auto;margin-right:auto}
+#checks .checks-tabs{justify-content:center}
+.book>*,.area-grid>*,.why2-head>*,.about-grid>*,.app-band>*{min-width:0}
+.trustbar{justify-content:center}
+@media (max-width:600px){
+  .trustbar{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+  .trustbar div{min-width:0}
+  footer.site .cols{grid-template-columns:1fr 1fr!important}
+  footer.site .cols>.col:first-child,footer.site .cols>.col:nth-child(4){grid-column:1/-1}
+  .wiz{padding:20px 16px}
+  .book aside{min-height:0;padding:24px 18px}
+  .areas-mobile-hint{display:block}
+}
+@media (max-width:700px){#cities{max-height:260px;overflow:auto;padding-right:4px}}
 /* hero extras */
 .hero-quick{margin-top:22px}
 .hero-quick p{font-size:14px;font-weight:700;color:var(--muted);margin-bottom:10px}
@@ -727,11 +745,11 @@ footer.site .legal{margin-top:40px;padding-top:20px;border-top:1px solid var(--l
 
 <main id="top">
 
+<span id="open-now" hidden></span>
 <section class="hero">
   <div class="wrap hero-grid">
     <div>
-      <div class="brandline"><span class="pin">📍 <span id="hq-city">Sacramento, CA</span></span><span class="open" id="open-now"></span></div>
-      <p class="hero-brand">Pacific Repair</p>
+      
       <h1>Your local team for appliance, HVAC &amp; electrical repair</h1>
       <p class="lede">One call for the fridge, the AC and the breaker that keeps tripping. Licensed technicians, a fixed price before work starts, and a 30-day warranty on every repair.</p>
       <div class="pick">
@@ -761,11 +779,7 @@ footer.site .legal{margin-top:40px;padding-top:20px;border-top:1px solid var(--l
           <button data-book="Outlets &amp; switches"><i>⚡</i>Electrical</button>
         </div>
       </div>
-      <div class="hero-trust">
-        <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5 9-10"/></svg>Free diagnostic</span>
-        <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5 9-10"/></svg>Upfront pricing</span>
-        <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5 9-10"/></svg>Luxury &amp; all major brands</span>
-      </div>
+      
     </div>
     <div class="hero-photo">
       <div class="ph"><img data-slot="hero" data-px="6835090" alt="Pacific Repair technicians at work" fetchpriority="high"></div>
@@ -775,13 +789,7 @@ footer.site .legal{margin-top:40px;padding-top:20px;border-top:1px solid var(--l
     </div>
   </div>
   <div class="wrap">
-    <div class="hero-perks">
-      <div class="perk"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></span><div><b>Same-day appointments</b><span>Open 7 days, 8 AM – 7 PM. Book before noon for today.</span></div></div>
-      <div class="perk"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg></span><div><b>Free diagnostic</b><span>We find the cause before you pay for anything.</span></div></div>
-      <div class="perk"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="3" width="16" height="18" rx="2"/><path d="M8 8h8M8 12h8M8 16h4"/></svg></span><div><b>Upfront, fixed price</b><span>You approve the price before work starts.</span></div></div>
-      <div class="perk"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 12V7l-8-4-8 4v5c0 5 3.5 8 8 9 4.5-1 8-4 8-9z"/><path d="M9 12l2 2 4-4"/></svg></span><div><b>30-day warranty</b><span>Parts and labor. Same issue? We come back free.</span></div></div>
-    </div>
-    <div class="trustbar">
+    
       <div><b>4.9</b><span><span class="stars">★★★★★</span><br>Customer rating</span></div>
       <div><b>10,000+</b><span>Repairs<br>completed</span></div>
       <div><b>2023</b><span>Founded in<br>Sacramento</span></div>
@@ -925,12 +933,7 @@ footer.site .legal{margin-top:40px;padding-top:20px;border-top:1px solid var(--l
       <p class="kicker">About Pacific Repair</p>
       <h2 id="about-title">A young local team that fixes it right the first time</h2>
       <p class="lede" id="about-text">We’re a Sacramento-based home service company. Our technicians repair kitchen and laundry appliances, heating and air conditioning, and home electrical — from everyday brands to luxury built-ins. We show up on time, explain the problem in plain words, give you the price before we start and stand behind every repair.</p>
-      <ul class="about-stats">
-        <li><b>2023</b><span>Founded in Sacramento</span></li>
-        <li><b data-stat="repairs">10,000+</b><span>Repairs completed</span></li>
-        <li><b id="stat-cities">40+</b><span>Cities served</span></li>
-        <li><b>3</b><span>Trades under one roof</span></li>
-      </ul>
+      
     </div>
     <aside class="hq">
       <div class="hq-top">
@@ -1723,13 +1726,13 @@ footer.site .legal{margin-top:40px;padding-top:20px;border-top:1px solid var(--l
   (function(){
     var co=C.company||{};
     var city=co.city||'Sacramento, CA';
-    document.getElementById('hq-city').textContent=co.address?city:('Based in '+city);
+    if(document.getElementById('hq-city'))document.getElementById('hq-city').textContent=co.address?city:('Based in '+city);
     document.getElementById('hq-addr').textContent=co.address?(co.address+', '+city):city;
     var q=encodeURIComponent(co.address?(co.address+', '+city):('Pacific Repair '+city));
     document.getElementById('hq-dir').href='https://www.google.com/maps/search/?api=1&query='+q;
     if(co.aboutTitle)document.getElementById('about-title').textContent=co.aboutTitle;
     if(co.aboutText)document.getElementById('about-text').textContent=co.aboutText;
-    if(C.areas&&C.areas.length)document.getElementById('stat-cities').textContent=C.areas.length+'+';
+    if(C.areas&&C.areas.length&&document.getElementById('stat-cities'))document.getElementById('stat-cities').textContent=C.areas.length+'+';
     var W=C.week||[['Monday','8:00','19:00'],['Tuesday','8:00','19:00'],['Wednesday','8:00','19:00'],['Thursday','8:00','19:00'],['Friday','8:00','19:00'],['Saturday','8:00','19:00'],['Sunday','8:00','19:00']];
     function t12(t){var h=+t.split(':')[0],m=t.split(':')[1];return ((h+11)%12+1)+(m!=='00'?':'+m:'')+' '+(h<12?'AM':'PM');}
     // current time in California
@@ -1739,9 +1742,9 @@ footer.site .legal{margin-top:40px;padding-top:20px;border-top:1px solid var(--l
     W.forEach(function(d,i){var tr=document.createElement('tr');if(i===di)tr.className='today';var a=document.createElement('td'),b=document.createElement('td');a.textContent=d[0];b.textContent=d[1]?t12(d[1])+' – '+t12(d[2]):'Closed';tr.appendChild(a);tr.appendChild(b);tb.appendChild(tr);});
     function m(t){var p=t.split(':');return +p[0]*60+ +p[1];}
     if(C.areas&&C.areas.length)document.getElementById('tb-cities').textContent=C.areas.length+'+';
-    var td=W[di],on=document.getElementById('open-now');
+    var td=W[di],on=document.getElementById('open-now')||document.createElement('span');
     if(td&&td[1]&&mins>=m(td[1])&&mins<m(td[2])){on.textContent='Open now · until '+t12(td[2]);}
-    else{var nx=null;for(var k=0;k<7;k++){var j=(di+k)%7,d=W[j];if(d&&d[1]&&(k>0||mins<m(d[1]))){nx=(k===0?'today':k===1?'tomorrow':d[0])+' at '+t12(d[1]);break;}}on.textContent='Closed · opens '+(nx||'soon');on.classList.add('closed');document.getElementById('next-slot').textContent='Next visit: '+(nx?nx.charAt(0).toUpperCase()+nx.slice(1):'Soon');}
+    else{var nx=null;for(var k=0;k<7;k++){var j=(di+k)%7,d=W[j];if(d&&d[1]&&(k>0||mins<m(d[1]))){nx=(k===0?'today':k===1?'tomorrow':d[0])+' at '+t12(d[1]);break;}}on.textContent='Closed · opens '+(nx||'soon');on.classList.add('closed');(document.getElementById('next-slot')||{}).textContent='Next visit: '+(nx?nx.charAt(0).toUpperCase()+nx.slice(1):'Soon');}
   })();
 
   // ---------- big header: stuck state + live info ----------

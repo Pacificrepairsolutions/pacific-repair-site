@@ -101,7 +101,7 @@ window.SITE = {
 
   // --- Главный заголовок и текст под ним ---
   heroTitle: "Your local team for appliance, HVAC & electrical repair",
-  heroText:  "One call for the fridge, the AC and the breaker that keeps tripping. Licensed technicians, a fixed price before work starts, and a 93-day warranty on every repair.",
+  heroText:  "One call for the fridge, the AC and the breaker that keeps tripping. Licensed technicians, a fixed price before work starts, and a 30-day warranty on every repair.",
 
   // --- Фото для разных блоков ---
   // Положите файл с таким именем в папку photos, и он заменит стоковое фото.
