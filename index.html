@@ -1375,7 +1375,7 @@ footer.site .legal{margin-top:40px;padding-top:20px;border-top:1px solid var(--l
   var BR=C.brands||{luxury:["Sub-Zero", "Wolf", "Viking", "Thermador", "Miele", "Dacor", "Monogram", "GE Profile", "JennAir", "Fisher & Paykel", "Bosch"],major:["Samsung", "LG", "Whirlpool", "Maytag", "KitchenAid", "GE", "Frigidaire", "Electrolux", "InSinkErator"],hvac:["Carrier", "Trane", "Lennox", "Rheem", "Goodman", "Daikin", "Mitsubishi Electric"]};
   function slug(n){return n.toLowerCase().replace(/&/g,'and').replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'');}
   // Logo sources, in order: your own file in photos/brands/ → official brand mark (Simple Icons, brand colors) → the name
-  var SI={'Samsung':'samsung','LG':'lg','Whirlpool':'whirlpool','Maytag':'maytag','Bosch':'bosch'};
+  var SI={'Samsung':'samsung','LG':'lg','Maytag':'maytag','Bosch':'bosch','Mitsubishi Electric':'mitsubishi'};
   var NO_LOGODEV={'Bosch':1,'Thermador':1};
   var EXTRA_LOGO={'Thermador':'https://cdn.worldvectorlogo.com/logos/thermador.svg'};
   // Official brand logo by company website (Logo.dev, needs a free publishable token in content.js)
@@ -1389,7 +1389,7 @@ footer.site .legal{margin-top:40px;padding-top:20px;border-top:1px solid var(--l
     var srcs=['photos/brands/'+slug(n)+'.png','photos/brands/'+slug(n)+'.svg','photos/brands/'+slug(n)+'.jpg','photos/brands/'+slug(n)+'.jpeg'];
     // crisp vector marks first (Samsung, LG, Whirlpool, Maytag, Bosch), then Logo.dev at high resolution
     if(SI[n])srcs.push('https://cdn.simpleicons.org/'+SI[n]);
-    if(C.logoToken&&DOMAIN[n]&&!NO_LOGODEV[n]&&!SI[n])srcs.push('https://img.logo.dev/'+DOMAIN[n]+'?token='+encodeURIComponent(C.logoToken)+'&size=256&format=png&retina=true&fallback=404');
+    if(C.logoToken&&DOMAIN[n]&&!NO_LOGODEV[n])srcs.push('https://img.logo.dev/'+DOMAIN[n]+'?token='+encodeURIComponent(C.logoToken)+'&size=256&format=png&retina=true&fallback=404');
     if(EXTRA_LOGO[n])srcs.push(EXTRA_LOGO[n]);
     var i=0;
     im.addEventListener('error',function(){i++;if(i<srcs.length)im.src=srcs[i];else{im.classList.add('gone');if(box)box.classList.remove('has-logo');}});
