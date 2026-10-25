@@ -1356,9 +1356,16 @@ footer.site .legal{margin-top:40px;padding-top:20px;border-top:1px solid var(--l
   function slug(n){return n.toLowerCase().replace(/&/g,'and').replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'');}
   // Logo sources, in order: your own file in photos/brands/ → official brand mark (Simple Icons, brand colors) → the name
   var SI={'Samsung':'samsung','LG':'lg','Whirlpool':'whirlpool','Maytag':'maytag'};
+  // Official brand logo by company website (Logo.dev, needs a free publishable token in content.js)
+  var DOMAIN={'Sub-Zero':'subzero-wolf.com','Viking':'vikingrange.com','Thermador':'thermador.com','Miele':'miele.com','Dacor':'dacor.com','Monogram':'monogram.com','JennAir':'jennair.com','Fisher & Paykel':'fisherpaykel.com','Bosch':'bosch-home.com',
+    'Samsung':'samsung.com','LG':'lg.com','Whirlpool':'whirlpool.com','Maytag':'maytag.com','KitchenAid':'kitchenaid.com','GE':'geappliances.com','Frigidaire':'frigidaire.com','Electrolux':'electrolux.com','InSinkErator':'insinkerator.com',
+    'Carrier':'carrier.com','Trane':'trane.com','Lennox':'lennox.com','Rheem':'rheem.com','Goodman':'goodmanmfg.com','Daikin':'daikin.com','Mitsubishi Electric':'mitsubishicomfort.com',
+    'Speed Queen':'speedqueen.com','Kenmore':'kenmore.com','Liebherr':'liebherr.com','Café':'cafeappliances.com','Waste King':'wasteking.com','Moen':'moen.com','Scotsman':'scotsman-ice.com','U-Line':'u-line.com','Hoshizaki':'hoshizakiamerica.com','Bryant':'bryant.com','American Standard':'americanstandardair.com','York':'york.com','Amana':'amana-hac.com','Ruud':'ruud.com','Fujitsu':'fujitsugeneral.com','Honeywell':'honeywellhome.com','ecobee':'ecobee.com','Google Nest':'nest.com'};
+  // Logo sources, in order: your own file in photos/brands/ → Logo.dev (if token set) → Simple Icons → the name
   function logoImg(n,box){
     var im=document.createElement('img');im.alt=n+' logo';im.loading='lazy';
     var srcs=['photos/brands/'+slug(n)+'.png','photos/brands/'+slug(n)+'.svg'];
+    if(C.logoToken&&DOMAIN[n])srcs.push('https://img.logo.dev/'+DOMAIN[n]+'?token='+encodeURIComponent(C.logoToken)+'&size=200&format=png&retina=true');
     if(SI[n])srcs.push('https://cdn.simpleicons.org/'+SI[n]);
     var i=0;
     im.addEventListener('error',function(){i++;if(i<srcs.length)im.src=srcs[i];else{im.classList.add('gone');if(box)box.classList.remove('has-logo');}});

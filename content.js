@@ -84,6 +84,10 @@ window.SITE = {
   // фоне) в папку photos/brands/ с именем бренда маленькими буквами:
   //   lg.png, samsung.png, sub-zero.png, ge-profile.png, fisher-and-paykel.png,
   //   mitsubishi-electric.png … Нет файла — показывается название.
+  // Логотипы брендов автоматически (бесплатно): зарегистрируйтесь на logo.dev,
+  // скопируйте Publishable key (начинается с pk_) и вставьте сюда.
+  logoToken: "",
+
   brandStrip: ["Sub-Zero", "Wolf", "Viking", "Thermador", "Miele", "Samsung", "LG", "Whirlpool"],
   brands: {
     luxury: ["Sub-Zero", "Wolf", "Viking", "Thermador", "Miele", "Dacor", "Monogram", "GE Profile", "JennAir", "Fisher & Paykel", "Bosch"],
