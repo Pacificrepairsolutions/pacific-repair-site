@@ -100,7 +100,7 @@ window.SITE = {
   years:   "15+",   // больше не используется на сайте (компания с 2023)
 
   // --- Главный заголовок и текст под ним ---
-  heroTitle: "Your local team for appliance, HVAC & electrical repair",
+  heroTitle: "Your local team for | appliance, HVAC & electrical repair",   // знак | = перенос на 2-ю строку
   heroText:  "One call for the fridge, the AC and the breaker that keeps tripping. Licensed technicians, a fixed price before work starts, and a 30-day warranty on every repair.",
 
   // --- Фото для разных блоков ---

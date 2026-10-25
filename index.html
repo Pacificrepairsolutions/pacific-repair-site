@@ -458,10 +458,16 @@ header nav.main a,.nav-phone,.logo.mini b{white-space:nowrap}
 .hero-bg{position:absolute;inset:0;z-index:0}
 .hero-bg img{width:100%;height:100%;object-fit:cover}
 .hero-bg img.gone{display:none}
-.hero-bg::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,color-mix(in srgb,var(--bg) 90%,transparent) 0%,color-mix(in srgb,var(--bg) 86%,transparent) 60%,var(--bg) 100%)}
+.hero-bg::after{content:"";position:absolute;inset:0;background:radial-gradient(ellipse 60% 55% at 50% 42%,color-mix(in srgb,var(--bg) 78%,transparent) 0%,color-mix(in srgb,var(--bg) 52%,transparent) 65%,color-mix(in srgb,var(--bg) 30%,transparent) 100%),linear-gradient(180deg,transparent 70%,var(--bg) 100%)}
 .hero-c .wrap{position:relative;z-index:1}
 .hero-center{text-align:center;max-width:980px}
-.hero-c h1{font-size:clamp(38px,5.4vw,68px);margin:0 auto;max-width:16ch;line-height:1.04}
+.hero-c h1{font-size:clamp(32px,4.2vw,58px);margin:0 auto;max-width:none;line-height:1.06;text-shadow:0 2px 18px color-mix(in srgb,var(--bg) 90%,transparent)}
+.hero-c h1 .l2{display:block}
+@media (min-width:1000px){.hero-c h1 .l2{white-space:nowrap}}
+.hero-center{max-width:1180px}
+.hero-c .lede{text-shadow:0 1px 12px var(--bg);font-weight:500}
+.hero.hero-c{padding:110px 0 70px}
+.hero-bg img{filter:saturate(1.05) contrast(1.02)}
 .hero-c .lede{margin:20px auto 0;max-width:60ch;font-size:19px;color:var(--text)}
 .hero-c .hero-ctas{justify-content:center}
 .hero-next{margin-top:18px;font-size:15px;color:var(--muted);display:inline-flex;align-items:center;gap:8px;background:var(--bg);border:1px solid var(--line);border-radius:999px;padding:7px 14px}
@@ -470,10 +476,10 @@ header nav.main a,.nav-phone,.logo.mini b{white-space:nowrap}
 .stats{list-style:none;padding:0;margin:52px 0 0;display:grid;grid-template-columns:repeat(5,1fr);gap:14px}
 .stats li{background:var(--bg);border:1px solid var(--line);border-radius:18px;padding:20px 16px;text-align:center;box-shadow:0 10px 24px -20px rgba(11,27,58,.4)}
 .stats b{display:block;font-size:28px;font-weight:800;color:var(--ink);line-height:1.1}
-.stats b .stars{font-size:15px;letter-spacing:1px;vertical-align:middle}
+.stats b .stars{font-size:15px;letter-spacing:1px;vertical-align:middle;color:#F5A524}
 .stats span{display:block;font-size:14px;color:var(--muted);margin-top:6px}
 @media (max-width:900px){.stats{grid-template-columns:repeat(2,1fr)}.stats li:last-child{grid-column:1/-1}}
-@media (max-width:600px){.hero.hero-c{padding:56px 0 44px}.stats b{font-size:24px}}
+@media (max-width:600px){.hero.hero-c{padding:56px 0 44px}.hero-c h1 .l2{display:inline}.stats b{font-size:24px}}
 .cities{display:grid!important;gap:0}
 .cities li.region{background:none!important;padding:10px 0!important;border-top:1px solid var(--line);border-radius:0!important;display:block}
 .cities li.region:first-child{border-top:0}
@@ -780,7 +786,7 @@ footer.site .legal{margin-top:40px;padding-top:20px;border-top:1px solid var(--l
 <section class="hero hero-c">
   <div class="hero-bg" aria-hidden="true"><img data-slot="hero" data-px="6835090" alt="" fetchpriority="high"></div>
   <div class="wrap hero-center">
-    <h1>Your local team for appliance, HVAC &amp; electrical repair</h1>
+    <h1>Your local team for <span class="l2">appliance, HVAC &amp; electrical repair</span></h1>
     <p class="lede">One call for the fridge, the AC and the breaker that keeps tripping. Licensed technicians, a fixed price before work starts, and a 30-day warranty on every repair.</p>
     <div class="hero-ctas">
       <button class="btn btn-orange btn-big" data-go="book">Book a visit online</button>
@@ -1299,7 +1305,7 @@ footer.site .legal{margin-top:40px;padding-top:20px;border-top:1px solid var(--l
     });
   }
   var SMS_TO='+1'+digits(C.phone1||'916-235-0084').slice(-10);
-  if(C.heroTitle)document.querySelector('.hero h1').textContent=C.heroTitle;
+  if(C.heroTitle){var h1=document.querySelector('.hero h1'),pt=C.heroTitle.split('|');h1.textContent=pt[0].trim()+(pt[1]?' ':'');if(pt[1]){var l2=document.createElement('span');l2.className='l2';l2.textContent=pt[1].trim();h1.appendChild(l2);}}
   if(C.heroText)document.querySelector('.hero .lede').textContent=C.heroText;
 
   // Booking times
