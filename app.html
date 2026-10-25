@@ -782,6 +782,7 @@ input:focus,select:focus,textarea:focus{outline:none;border-color:var(--blue)}
   var h=location.hash.replace('#','');
   if(['appliances','care','requests','account'].indexOf(h)>=0)go(h);else render();
   if(h==='book')openSheet('book');
+  if(h==='pay')openSheet('pay');
   if(h==='virtual')openSheet('book',{kind:'virtual'});
 
   if('serviceWorker' in navigator&&location.protocol==='https:'){try{navigator.serviceWorker.register('sw.js').catch(function(){});}catch(_){}}
