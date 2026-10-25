@@ -1365,7 +1365,7 @@ footer.site .legal{margin-top:40px;padding-top:20px;border-top:1px solid var(--l
   function logoImg(n,box){
     var im=document.createElement('img');im.alt=n+' logo';im.loading='lazy';
     var srcs=['photos/brands/'+slug(n)+'.png','photos/brands/'+slug(n)+'.svg'];
-    if(C.logoToken&&DOMAIN[n])srcs.push('https://img.logo.dev/'+DOMAIN[n]+'?token='+encodeURIComponent(C.logoToken)+'&size=200&format=png&retina=true');
+    if(C.logoToken&&DOMAIN[n])srcs.push('https://img.logo.dev/'+DOMAIN[n]+'?token='+encodeURIComponent(C.logoToken)+'&size=200&format=png&retina=true&fallback=404');
     if(SI[n])srcs.push('https://cdn.simpleicons.org/'+SI[n]);
     var i=0;
     im.addEventListener('error',function(){i++;if(i<srcs.length)im.src=srcs[i];else{im.classList.add('gone');if(box)box.classList.remove('has-logo');}});
