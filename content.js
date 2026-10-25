@@ -86,7 +86,7 @@ window.SITE = {
   //   mitsubishi-electric.png … Нет файла — показывается название.
   // Логотипы брендов автоматически (бесплатно): зарегистрируйтесь на logo.dev,
   // скопируйте Publishable key (начинается с pk_) и вставьте сюда.
-  logoToken: "",
+  logoToken: "pk_XgT…YOw",
 
   brandStrip: ["Sub-Zero", "Wolf", "Viking", "Thermador", "Miele", "Samsung", "LG", "Whirlpool"],
   brands: {
