@@ -549,6 +549,19 @@ section .kicker{text-align:center}
 .pfree{display:inline-block;margin-top:12px;background:color-mix(in srgb,var(--green) 14%,transparent);color:var(--green);font-weight:800;border-radius:999px;padding:6px 14px;font-size:15px;letter-spacing:.03em}
 .pnote{color:var(--muted);font-size:15px;margin-top:12px}
 .pcompare{text-align:center;color:var(--muted);margin-top:22px;font-size:15.5px}
+
+/* gallery tabs + lightbox */
+.gtabs{display:flex;justify-content:center;gap:8px;flex-wrap:wrap;margin-top:26px}
+.gtabs button{border:1.5px solid var(--line);background:var(--bg);border-radius:999px;padding:11px 18px;font:700 15.5px var(--font);color:var(--text);cursor:pointer}
+.gtabs button[aria-selected="true"]{background:var(--ink);border-color:var(--ink);color:var(--bg)}
+.gallery figure{cursor:zoom-in}
+.gallery figure .ph img{transition:transform .4s}
+.gallery figure:hover .ph img{transform:scale(1.04)}
+.lightbox{position:fixed;inset:0;z-index:60;background:rgba(5,12,26,.9);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:24px;cursor:zoom-out}
+.lightbox[hidden]{display:none}
+.lightbox img{max-width:min(1200px,96vw);max-height:80vh;border-radius:14px;object-fit:contain}
+.lightbox p{color:#fff;font-weight:700;margin-top:12px}
+.lightbox button{position:absolute;top:calc(14px + env(safe-area-inset-top,0px));right:18px;background:rgba(255,255,255,.15);border:0;color:#fff;font-size:28px;width:46px;height:46px;border-radius:50%;cursor:pointer}
 /* hero extras */
 .hero-quick{margin-top:22px}
 .hero-quick p{font-size:14px;font-weight:700;color:var(--muted);margin-bottom:10px}
@@ -1042,10 +1055,16 @@ footer.site .legal{margin-top:40px;padding-top:20px;border-top:1px solid var(--l
 <section id="work" style="padding-top:0">
   <div class="wrap">
     <p class="kicker">Our work</p>
-    <h2>Kitchens, laundry rooms and backyards across the valley</h2>
+    <h2 style="text-align:center">Appliances, heating &amp; AC and electrical — done right</h2>
+    <div class="gtabs" role="tablist">
+      <button type="button" data-g="app" aria-selected="true">🧊 Appliances</button>
+      <button type="button" data-g="hvac" aria-selected="false">❄️ Heating &amp; AC</button>
+      <button type="button" data-g="elec" aria-selected="false">⚡ Electrical</button>
+    </div>
     <div class="gallery" id="gallery"></div>
   </div>
 </section>
+<div class="lightbox" id="lightbox" hidden><button type="button" aria-label="Close">×</button><img alt=""><p></p></div>
 
 <section class="area" id="area">
   <div class="wrap">
@@ -1415,18 +1434,36 @@ footer.site .legal{margin-top:40px;padding-top:20px;border-top:1px solid var(--l
     });
   }
 
-  // Gallery: your photos (photos/work-1.jpg, work-2.jpg …) or stock photos until you add them
-  var STOCK=[['8082222','Built-in ovens & wine cooler'],['5463576','AC line repair'],['5691589','Switch & outlet work'],['7614540','Kitchen appliances'],['9679179','Breaker panel work']];
+  // Gallery: three tabs of free stock photos (Unsplash / Pexels) — or your own photos from content.js → work
+  function us(id){return 'https://images.unsplash.com/photo-'+id+'?auto=format&fit=crop&q=75&w=1200';}
+  var SETS={
+    app:[[us('1484154218962-a197022b5858'),'Built-in refrigerator'],[us('1588854337115-1c67d9247e4d'),'French-door refrigerator'],[px('8082222'),'Built-in ovens & wine cooler'],
+         [us('1632923565835-6582b54f2105'),'Washer & dryer'],[us('1626806787461-102c1bfaaea1'),'Front-load washer'],[us('1622473590925-e3616c0a41bf'),'Laundry room'],
+         [us('1596552183299-000ef779e88d'),'Microwave'],[px('3958962'),'Kitchen appliances']],
+    hvac:[[px('6471912'),'AC refrigerant check'],[px('32497161'),'Outdoor AC unit service'],[px('5463575'),'AC repair'],[px('5463576'),'AC line repair'],
+          [us('1700124113583-81aa99ea2aa2'),'Heat pump'],[us('1757219525975-03b5984bc6e8'),'Mini-split'],[us('1762341123870-d706f257a12e'),'Wall-mounted AC'],[us('1718203862467-c33159fdc504'),'Condenser unit']],
+    elec:[[px('5691588'),'Outlet installation'],[px('5691589'),'Switches & outlets'],[px('4792522'),'Light fixture install'],[px('4981803'),'Switch repair'],[px('9679179'),'Breaker panel work']]
+  };
   var work=(C.work||[]).filter(function(w){return w.photo;});
-  var gal=document.getElementById('gallery');
-  var items=work.length?work.map(function(w){return {local:'photos/'+w.photo,stock:null,cap:w.caption||''};}):STOCK.map(function(x){return {local:null,stock:px(x[0]),cap:x[1]};});
-  items.forEach(function(it,i){
-    var f=document.createElement('figure');if(i===0)f.className='big';
-    f.innerHTML='<div class="ph"><img loading="lazy" alt=""></div>'+(it.cap?'<figcaption></figcaption>':'');
-    if(it.cap){f.querySelector('figcaption').textContent=it.cap;f.querySelector('img').alt=it.cap;}
-    loadImg(f.querySelector('img'),it.local,it.stock);
-    gal.appendChild(f);
-  });
+  var gal=document.getElementById('gallery'),lb=document.getElementById('lightbox');
+  function drawGallery(k){
+    gal.innerHTML='';
+    var items=work.length?work.map(function(w){return [ 'photos/'+w.photo, w.caption||''];}):SETS[k];
+    items.forEach(function(it,i){
+      var f=document.createElement('figure');if(i===0)f.className='big';
+      f.innerHTML='<div class="ph"><img loading="lazy" alt=""></div><figcaption></figcaption>';
+      var im=f.querySelector('img');im.alt=it[1];f.querySelector('figcaption').textContent=it[1];
+      im.addEventListener('error',function(){im.classList.add('gone');});im.src=it[0];
+      f.addEventListener('click',function(){lb.querySelector('img').src=it[0].replace('w=1200','w=2000');lb.querySelector('p').textContent=it[1];lb.hidden=false;});
+      gal.appendChild(f);
+    });
+    document.querySelectorAll('.gtabs button').forEach(function(b){b.setAttribute('aria-selected',b.dataset.g===k?'true':'false');});
+  }
+  document.querySelector('.gtabs').addEventListener('click',function(e){var b=e.target.closest('button');if(b)drawGallery(b.dataset.g);});
+  if(work.length)document.querySelector('.gtabs').hidden=true;
+  lb.addEventListener('click',function(){lb.hidden=true;});
+  document.addEventListener('keydown',function(e){if(e.key==='Escape')lb.hidden=true;});
+  drawGallery('app');
 
 
   // Brands: clean name tiles; drop an official logo file into photos/brands/ to replace the name
